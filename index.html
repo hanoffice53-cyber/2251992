@@ -400,9 +400,32 @@
             let banner = document.getElementById("statusBanner");
             let title = document.getElementById("statusText");
             let detail = document.getElementById("statusDetail");
+            let custCode = localStorage.getItem("yadanar_custCode");
+            
             banner.classList.add("active");
-            title.innerHTML = "🛵 " + initialStatus + "... (" + orderId + ")";
+            title.innerHTML = "🛵 " + (initialStatus || "မှာယူထားသည်") + "... (" + orderId + ")";
             detail.innerHTML = "မှာယူထားသည်များ: <b>" + itemsSummary + "</b>";
+
+            if (statusCheckInterval) clearInterval(statusCheckInterval);
+            statusCheckInterval = setInterval(async function() {
+                const res = await callBackend({ action: "getUserInitData", custCode: custCode });
+                if (res && res.status === "success") {
+                    if (!res.activeOrder) {
+                        // အကယ်၍ activeOrder မရှိတော့ပါက (သို့မဟုတ် ပို့ဆောင်ပြီး/ကုန်သွားပြီး ဖြစ်သွားပါက) ဘန်နာကို ပိတ်မည် သို့မဟုတ် ပြီးဆုံးကြောင်းပြမည်
+                        title.innerHTML = "✅ ပို့ဆောင်ပြီးပါပြီ";
+                        detail.innerHTML = "မှာယူထားသော အစားအစာများ ရောက်ရှိပါပြီ။ သုံးဆောင်နိုင်ပါပြီ။";
+                        banner.style.borderColor = "#27ae60";
+                        title.style.color = "#27ae60";
+                        clearInterval(statusCheckInterval);
+                        
+                        // ၅ စက္ကန့်အကြာတွင် ဘန်နာကို အလိုအလျောက် ဖယ်ရှားပေးမည်
+                        setTimeout(() => { banner.classList.remove("active"); }, 5000);
+                    } else {
+                        // အကယ်၍ အခြေအနေ (status) ပြောင်းသွားပါက ချက်ချင်း တိုက်ရိုက်ပြသမည်
+                        title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + orderId + ")";
+                    }
+                }
+            }, 5000);
         }
     </script>
 </body>
