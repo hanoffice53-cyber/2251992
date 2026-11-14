@@ -9,87 +9,109 @@
     <meta name="theme-color" content="#e67e22">
     <title>YADANAR - Food Ordering</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-   <style>
+  <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
             font-family: 'Pyidaungsu', 'Myanmar Text', sans-serif; 
-            background-color: #1a1a1a; /* ဆိုင်မီနူးကဲ့သို့ ခမ်းနားသော Dark Theme နောက်ခံ */
+            background-color: #0c0c0c; /* တော်ဝင်ဆန်သော အမည်းရောင် */
             margin: 0; padding: 0; 
             width: 100%; min-height: 100vh; font-size: 16px;
             overflow-x: hidden;
-            color: #fff;
+            color: #f3f3f3;
         }
         .header { 
-            background: linear-gradient(135deg, #e67e22, #d35400); 
-            color: white; padding: 14px 20px; 
+            background: linear-gradient(135deg, #b8860b, #d4af37, #8b6508); /* တော်ဝင်ရွှေရောင် Gradient */
+            color: #1a1a1a; padding: 16px 20px; 
             display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.3); width: 100%;
+            position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 15px rgba(212,175,55,0.3); width: 100%;
         }
-        .header h2 { margin: 0; font-size: 21px; }
+        .header h2 { margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px; }
         .header-btns { display: flex; gap: 10px; align-items: center; }
         .top-action-btn { 
-            background: #f1c40f; color: #222; border: none; padding: 9px 15px; 
+            background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 9px 16px; 
             border-radius: 20px; font-weight: bold; font-size: 14px; cursor: pointer; position: relative; 
         }
         .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; position: absolute; top: -5px; right: -5px; }
         
-        .container { padding: 20px; width: 100%; max-width: 1200px; margin: auto; padding-bottom: 120px; }
+        .container { padding: 25px 15px; width: 100%; max-width: 1200px; margin: auto; padding-bottom: 120px; }
         
-        .card-box { background: #242424; color: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #333; }
+        .card-box { background: #141414; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
         #mainScreen, #pendingScreen { display: none; width: 100%; }
 
-        .user-info-bar { background: #2c3e50; border: 1px solid #27ae60; padding: 14px 18px; border-radius: 10px; margin-bottom: 20px; font-size: 16px; color: #ecf0f1; line-height: 1.5; }
-        .status-banner { background: #2c221e; border: 2px solid #e67e22; padding: 16px; border-radius: 12px; margin-bottom: 20px; display: none; color: #fffae6; }
+        .user-info-bar { background: #141414; border: 1px solid #d4af37; padding: 14px 18px; border-radius: 12px; margin-bottom: 25px; font-size: 16px; color: #d4af37; line-height: 1.5; box-shadow: inset 0 0 10px rgba(212,175,55,0.1); }
+        .status-banner { background: #1a150c; border: 2px solid #d4af37; padding: 16px; border-radius: 12px; margin-bottom: 25px; display: none; color: #f9e79f; }
         .status-banner.active { display: block; }
-        .status-title { font-weight: bold; color: #f39c12; font-size: 17px; margin-bottom: 5px; }
+        .status-title { font-weight: bold; color: #f1c40f; font-size: 17px; margin-bottom: 5px; }
         
-        .section-title { font-size: 21px; margin-bottom: 20px; color: #f1c40f; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 8px; }
+        .section-title { font-size: 24px; margin-bottom: 20px; color: #d4af37; font-weight: bold; text-align: center; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
         
-        /* မီနူးကတ်ဒီဇိုင်း (ပုံပါ စားသောက်ဆိုင် မီနူးစတိုင်) */
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; width: 100%; }
-        .menu-card { background: #252525; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.4); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #383838; transition: transform 0.2s; }
-        .menu-card:hover { transform: translateY(-4px); }
+        /* တော်ဝင်မီနူးစာအုပ် ဒီဇိုင်းကွက် (Menu Book Grid) */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; width: 100%; }
         
-        .menu-img-wrap { position: relative; width: 100%; height: 180px; background: #111; }
+        .menu-card { 
+            background: #161616; 
+            border-radius: 14px; 
+            overflow: hidden; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            border: 1px solid #b8860b; /* ရွှေရောင်အနားသတ် */
+            transition: all 0.3s ease;
+        }
+        .menu-card:hover { transform: translateY(-5px); border-color: #ffd700; box-shadow: 0 12px 30px rgba(212,175,55,0.2); }
+        
+        .menu-img-wrap { position: relative; width: 100%; height: 190px; background: #000; border-bottom: 1px solid #333; }
         .menu-img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
         
-        /* ပုံပါကဲ့သို့ အဝိုင်းပုံ စျေးနှုန်း တံဆိပ် (Price Badge) */
+        /* တော်ဝင်ဆန်သော ရွှေရောင် စျေးနှုန်းတံဆိပ် (Royal Gold Price Badge) */
         .price-badge {
             position: absolute;
             top: 12px;
             right: 12px;
-            background: #2c3e50;
-            color: #f1c40f;
+            background: linear-gradient(135deg, #d4af37, #aa771c);
+            color: #0c0c0c;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 13px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            border: 2px solid #f1c40f;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: 2px solid #fff;
             text-align: center;
             line-height: 1.1;
         }
 
-        .menu-info { padding: 15px; }
-        .menu-title { font-weight: bold; font-size: 18px; margin-bottom: 6px; color: #fff; }
-        .menu-tag { font-size: 13px; color: #bbb; margin-bottom: 4px; font-style: italic; }
+        .menu-info { padding: 18px; text-align: center; }
+        .menu-title { font-weight: bold; font-size: 19px; margin-bottom: 8px; color: #f9e79f; letter-spacing: 0.5px; }
+        .menu-tag { font-size: 13px; color: #aaa; margin-bottom: 6px; font-style: italic; }
         
-        .order-btn { background: #e67e22; color: white; border: none; padding: 14px; width: 100%; cursor: pointer; font-weight: bold; font-size: 16px; transition: background 0.2s; }
-        .order-btn:hover { background: #d35400; }
+        .order-btn { 
+            background: linear-gradient(135deg, #d4af37, #b8860b); 
+            color: #0c0c0c; 
+            border: none; 
+            padding: 14px; 
+            width: 100%; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px; 
+            letter-spacing: 1px;
+            transition: background 0.2s; 
+        }
+        .order-btn:hover { background: linear-gradient(135deg, #ffd700, #d4af37); }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100; }
-        .modal-content { background: #252525; color: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 15px; padding: 25px; overflow-y: auto; text-align: left; border: 1px solid #444; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; padding-bottom: 12px; margin-bottom: 15px; }
-        .close-top-btn { background: #444; color: #fff; border: none; font-size: 16px; font-weight: bold; padding: 6px 14px; border-radius: 8px; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: #161616; color: #f3f3f3; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 15px; padding: 25px; overflow-y: auto; text-align: left; border: 1px solid #d4af37; box-shadow: 0 10px 30px rgba(212,175,55,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #b8860b; padding-bottom: 12px; margin-bottom: 15px; }
+        .close-top-btn { background: #b8860b; color: #0c0c0c; border: none; font-size: 16px; font-weight: bold; padding: 6px 14px; border-radius: 8px; cursor: pointer; }
         
         .form-group { margin-bottom: 18px; text-align: left; }
-        .form-group label { display: block; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #ddd; }
-        .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #444; border-radius: 10px; background-color: #1a1a1a; color: #fff; }
-        .checkout-btn { background: #27ae60; color: white; border: none; padding: 16px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; }
+        .form-group label { display: block; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #d4af37; }
+        .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #b8860b; border-radius: 10px; background-color: #0c0c0c; color: #fff; }
+        .checkout-btn { background: linear-gradient(135deg, #27ae60, #1e8449); color: white; border: none; padding: 16px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -194,7 +216,7 @@
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwXaZszxRAgL4xal6xQCpfQ7VdzMbN5rASSOb6u2Imd6Wj0L1fo58m8RSW5U5Is37Iw/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby-0n-JsYsTTaSqNOStGcIGD9p2Cpg34sSshz4LgkEIwBj4GALkNJTAOVSoTLKyyExF/exec";
         let menus = [];
         let cart = {};
         let statusCheckInterval = null;
@@ -318,7 +340,7 @@
             }
         }
 
-       function renderMenu() {
+      function renderMenu() {
             let grid = document.getElementById("menuGrid");
             grid.innerHTML = "";
             if (!menus || menus.length === 0) { 
@@ -330,13 +352,13 @@
                     <div class="menu-card">
                         <div class="menu-img-wrap">
                             <img src="${m.img}" class="menu-img" onclick="openImgModal('${m.img}')" alt="${m.name}">
-                            <div class="price-badge">${m.price}<br><span style="font-size:10px;">THB</span></div>
+                            <div class="price-badge">${m.price}<br><span style="font-size:9px;">THB</span></div>
                         </div>
                         <div class="menu-info">
                             <div class="menu-title">[${m.code}] ${m.name}</div>
-                            <div class="menu-tag">${m.tag ? m.tag : 'YADANAR Special Menu'}</div>
+                            <div class="menu-tag">${m.tag ? m.tag : 'YADANAR Royal Recipe'}</div>
                         </div>
-                        <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
+                        <button class="order-btn" onclick="addToCart('${m.code}')">✦ မီနူးရွေးမည် ✦</button>
                     </div>
                 `;
             });
