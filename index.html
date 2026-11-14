@@ -420,19 +420,29 @@
 
             document.getElementById("summaryCardNo").innerText = custCode;
             document.getElementById("summaryRoom").innerText = building + " " + roomNo;
-            document.getElementById("summaryDebt").innerText = "...";
+            document.getElementById("summaryDebt").innerText = "တွက်ချက်နေပါသည်...";
             document.getElementById("orderHistoryList").innerHTML = `<p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
             document.getElementById("historyModal").style.display = "flex";
 
             const data = await callBackend({ action: "getUserHistory", custCode: custCode });
             if (data && data.status === "success") {
-                document.getElementById("summaryDebt").innerText = (data.totalDebt || 0).toLocaleString();
                 let container = document.getElementById("orderHistoryList");
+                let calculatedDebt = 0; // အကြွေးစုစုပေါင်း တွက်ရန် Variable
+
                 if (!data.history || data.history.length === 0) {
                     container.innerHTML = `<p style="color: #888; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
+                    document.getElementById("summaryDebt").innerText = "0";
                 } else {
                     container.innerHTML = data.history.map(h => {
-                        const isSoldOut = h.status === "ကုန်သွားပြီး";
+                        const isSoldOut = String(h.status).trim() === "ကုန်သွားပြီး";
+                        const isCredit = String(h.paymentType).trim() === "အကြွေး";
+                        
+                        // ကုန်သွားပြီး မဟုတ်ဘဲ "အကြွေး" ဖြစ်နေပါက အကြွေးစုစုပေါင်းထဲ ပေါင်းထည့်မည်
+                        if (!isSoldOut && isCredit) {
+                            let numericTotal = Number(String(h.total).replace(/[^0-9.-]+/g, "")) || 0;
+                            calculatedDebt += numericTotal;
+                        }
+
                         return `
                         <div style="padding: 12px 0; border-bottom: 1px solid #333; font-size: 15px; color: #ddd;">
                             <div>
@@ -445,8 +455,13 @@
                             </div>
                         </div>
                     `}).join('');
+
+                    // Backend မှ totalDebt ပါလာလျှင် ၎င်းကိုသုံးမည်၊ မပါလျှင် Frontend မှ တွက်ထားသော calculatedDebt ကို ပြမည်
+                    let finalDebt = (Number(data.totalDebt) > 0) ? Number(data.totalDebt) : calculatedDebt;
+                    document.getElementById("summaryDebt").innerText = finalDebt.toLocaleString();
                 }
             } else {
+                document.getElementById("summaryDebt").innerText = "0";
                 document.getElementById("orderHistoryList").innerHTML = `<p style="color: red; font-size: 14px;">စာရင်းဆွဲယူရာတွင် အမှားရှိပါသည်။</p>`;
             }
         }
