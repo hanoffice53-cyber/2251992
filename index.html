@@ -215,7 +215,7 @@
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxe7M3Md_FgWbk65kdtLSS0oyVrMSCHQzLhwJzcedL5-z2WScRF-fkaQQShl1Usz8tc/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzQIAY5sx4IzHi-22tZwPNG4RUsz3_UM1uIli6UAHFal5PiPX2jW0btFSSs9BrtFIoy/exec";
         let menus = [];
         let cart = {};
         let statusCheckInterval = null;
@@ -420,6 +420,7 @@
 
             document.getElementById("summaryCardNo").innerText = custCode;
             document.getElementById("summaryRoom").innerText = building + " " + roomNo;
+            document.getElementById("summaryDebt").innerText = "...";
             document.getElementById("orderHistoryList").innerHTML = `<p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
             document.getElementById("historyModal").style.display = "flex";
 
@@ -486,7 +487,6 @@
             title.innerHTML = "🛵 " + (initialStatus || "မှာယူထားသည်") + "... (" + orderId + ")";
             detail.innerHTML = "မှာယူထားသည်များ: <b>" + itemsSummary + "</b>";
 
-            // စတင်ဖွင့်လိုက်သည်နှင့် တစ်ပြိုင်နက် Backend မှ အခြေအနေအမှန်ကို တိုက်ရိုက်ဆွဲယူ၍ ချက်ချင်းချိန်ကိုက်မည်
             callBackend({ action: "getUserInitData", custCode: custCode }).then(res => {
                 if (res && res.status === "success" && res.activeOrder) {
                     title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
@@ -505,11 +505,10 @@
                         clearInterval(statusCheckInterval);
                         setTimeout(() => { banner.classList.remove("active"); }, 5000);
                     } else {
-                        // အက်ဒမင်ဘက်မှ ပြောင်းလိုက်သော အခြေအနေအမှန် (ဥပမာ- ပို့ဆောင်နေသည်) ကို ချက်ချင်းပြောင်းလဲပြသမည်
                         title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
                     }
                 }
-            }, 5000); // ၅ စက္ကန့် တစ်ကြိမ် စစ်ဆေးမည်
+            }, 5000);
         }
     </script>
 </body>
