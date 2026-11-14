@@ -68,7 +68,7 @@
     <div class="header">
         <h2>YADANAR Fastfood</h2>
         <div id="headerActionBtns" class="header-btns" style="display:none;">
-            <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း</button>
+            <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း/အကြွေး</button>
             <button class="top-action-btn" onclick="toggleCart()">🛒 ခြင်းတောင်း <span id="cartCount" class="badge">0</span></button>
         </div>
     </div>
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <!-- Modals (Cart & History) -->
+    <!-- Cart Modal -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -138,12 +138,28 @@
         </div>
     </div>
 
+    <!-- History & Debt Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content" style="max-width: 650px;">
             <div class="modal-header">
-                <h3>📋 မှာယူမှု မှတ်တမ်းများ</h3>
+                <h3>📋 အကောင့်အကျဉ်းချုပ်နှင့် မှတ်တမ်း</h3>
                 <button class="close-top-btn" onclick="toggleHistoryModal()">✕ ပိတ်မည်</button>
             </div>
+            
+            <!-- လစဉ်ကြွေး စုစုပေါင်း ဘောက်စ် -->
+            <div style="background: #fff3e0; border: 1px solid #e67e22; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <div style="font-weight: bold; color: #d35400; margin-bottom: 8px; font-size: 16px;">💳 အကောင့်အကျဉ်းချုပ်</div>
+                <div style="display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 4px;">
+                    <span>ကဒ်နံပါတ်: <b id="summaryCardNo">-</b></span>
+                    <span>အခန်း: <b id="summaryRoom">-</b></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 16px; color: #c0392b; font-weight: bold; margin-top: 8px; border-top: 1px dashed #e67e22; padding-top: 8px;">
+                    <span>လစဉ်ကြွေး စုစုပေါင်း:</span>
+                    <span><span id="summaryDebt">0</span> THB</span>
+                </div>
+            </div>
+
+            <div style="font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #333;">📅 မှာယူမှု မှတ်တမ်းများ</div>
             <div id="orderHistoryList"><p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
         </div>
     </div>
@@ -203,7 +219,6 @@
                 localStorage.setItem("yadanar_roomNo", userData.roomNo);
 
                 if (userData.approvalStatus === "approved") {
-                    // အက်ဒမင် ခွင့်ပြုပြီးသားဆိုလျှင် မီနူးပြရန်
                     document.getElementById("loginScreen").style.display = "none";
                     document.getElementById("pendingScreen").style.display = "none";
                     document.getElementById("mainScreen").style.display = "block";
@@ -220,7 +235,6 @@
                         showActiveOrder(res.activeOrder.items, res.activeOrder.orderId, res.activeOrder.status);
                     }
                 } else {
-                    // အတည်ပြုချက် စောင့်ဆိုင်းနေဆဲ (pending) ဖြစ်ပါက
                     document.getElementById("loginScreen").style.display = "none";
                     document.getElementById("mainScreen").style.display = "none";
                     document.getElementById("pendingScreen").style.display = "block";
@@ -234,12 +248,7 @@
 
         async function checkApprovalStatus() {
             let savedCode = localStorage.getItem("yadanar_custCode");
-            if (savedCode) {
-                alert("🔄 အခြေအနေကို စစ်ဆေးနေပါသည်...");
-                verifyAndLoadUser(savedCode);
-            } else {
-                showLoginScreen();
-            }
+            if (savedCode) { verifyAndLoadUser(savedCode); } else { showLoginScreen(); }
         }
 
         function logoutUser() {
@@ -329,7 +338,7 @@
                 count += item.qty;
                 total += item.price * item.qty;
                 list.innerHTML += `
-                    <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:14px 0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:14px 0;">
                         <div>
                             <div style="font-weight:bold; font-size:16px;">${item.name}</div>
                             <div style="color:#666; font-size:14px;">${item.price} THB × ${item.qty} = <b>${item.price * item.qty} THB</b></div>
@@ -353,20 +362,38 @@
 
         async function openHistoryModal() {
             let custCode = localStorage.getItem("yadanar_custCode");
+            let building = localStorage.getItem("yadanar_building");
+            let roomNo = localStorage.getItem("yadanar_roomNo");
+
+            document.getElementById("summaryCardNo").innerText = custCode;
+            document.getElementById("summaryRoom").innerText = building + " " + roomNo;
+            document.getElementById("orderHistoryList").innerHTML = `<p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
             document.getElementById("historyModal").style.display = "flex";
+
             const data = await callBackend({ action: "getUserHistory", custCode: custCode });
-            let container = document.getElementById("orderHistoryList");
-            if (data && data.history && data.history.length > 0) {
-                container.innerHTML = data.history.map(h => `
-                    <div style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 15px;">
-                        <div><b>[${h.id}]</b> ${h.text} - <span style="color: #d35400; font-weight:bold;">${h.total} THB</span></div>
-                        <div style="font-size:13px; color:#777; display:flex; justify-content:space-between;">
-                            <span>အခြေအနေ: ${h.status}</span><span>${h.date}</span>
+            if (data && data.status === "success") {
+                document.getElementById("summaryDebt").innerText = (data.totalDebt || 0).toLocaleString();
+                let container = document.getElementById("orderHistoryList");
+                if (!data.history || data.history.length === 0) {
+                    container.innerHTML = `<p style="color: #888; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
+                } else {
+                    container.innerHTML = data.history.map(h => {
+                        const isSoldOut = h.status === "ကုန်သွားပြီး";
+                        return `
+                        <div style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 15px; color: #444;">
+                            <div>
+                                <b>[${h.id}]</b> ${h.text} 
+                                ${isSoldOut ? '<span style="color:red; font-weight:bold;">(ကုန်သွားပြီး - ငွေမပေါင်းပါ)</span>' : `<span style="color: #d35400; font-weight:bold;">- ${h.total} THB</span>`}
+                            </div>
+                            <div style="font-size:13px; color:#777; margin-top:4px; display:flex; justify-content:space-between;">
+                                <span>${h.paymentType} | ${h.status}</span>
+                                <span>${h.date}</span>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `}).join('');
+                }
             } else {
-                container.innerHTML = `<p style="color: #888;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
+                document.getElementById("orderHistoryList").innerHTML = `<p style="color: red; font-size: 14px;">စာရင်းဆွဲယူရာတွင် အမှားရှိပါသည်။</p>`;
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
@@ -396,40 +423,13 @@
             }
         }
 
-    function showActiveOrder(itemsSummary, orderId, initialStatus) {
+        function showActiveOrder(itemsSummary, orderId, initialStatus) {
             let banner = document.getElementById("statusBanner");
             let title = document.getElementById("statusText");
             let detail = document.getElementById("statusDetail");
-            let custCode = localStorage.getItem("yadanar_custCode");
-            
             banner.classList.add("active");
-            title.innerHTML = "🛵 " + (initialStatus || "မှာယူထားသည်") + "... (" + orderId + ")";
+            title.innerHTML = "🛵 " + initialStatus + "... (" + orderId + ")";
             detail.innerHTML = "မှာယူထားသည်များ: <b>" + itemsSummary + "</b>";
-
-            // စတင်ဖွင့်လိုက်သည်နှင့် တစ်ပြိုင်နက် Backend မှ အခြေအနေအမှန်ကို တိုက်ရိုက်ဆွဲယူ၍ ချက်ချင်းချိန်ကိုက်မည်
-            callBackend({ action: "getUserInitData", custCode: custCode }).then(res => {
-                if (res && res.status === "success" && res.activeOrder) {
-                    title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
-                }
-            });
-
-            if (statusCheckInterval) clearInterval(statusCheckInterval);
-            statusCheckInterval = setInterval(async function() {
-                const res = await callBackend({ action: "getUserInitData", custCode: custCode });
-                if (res && res.status === "success") {
-                    if (!res.activeOrder) {
-                        title.innerHTML = "✅ ပို့ဆောင်ပြီးပါပြီ";
-                        detail.innerHTML = "မှာယူထားသော အစားအစာများ ရောက်ရှိပါပြီ။ သုံးဆောင်နိုင်ပါပြီ။";
-                        banner.style.borderColor = "#27ae60";
-                        title.style.color = "#27ae60";
-                        clearInterval(statusCheckInterval);
-                        setTimeout(() => { banner.classList.remove("active"); }, 5000);
-                    } else {
-                        // အက်ဒမင်ဘက်မှ ပြောင်းလိုက်သော အခြေအနေအမှန် (ဥပမာ- ပို့ဆောင်နေသည်) ကို ချက်ချင်းပြောင်းလဲပြသမည်
-                        title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
-                    }
-                }
-            }, 5000); // ၅ စက္ကန့် တစ်ကြိမ် စစ်ဆေးမည်
         }
     </script>
 </body>
