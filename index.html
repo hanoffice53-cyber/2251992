@@ -15,7 +15,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
             font-family: 'Padauk', sans-serif; 
-            background-color: #361e10; /* ပုံထဲက အညိုရင့်ရောင် နောက်ခံ */
+            background-color: #361e10; 
             margin: 0; padding: 0; 
             width: 100%; min-height: 100vh; font-size: 16px;
             overflow-x: hidden;
@@ -105,7 +105,7 @@
             border-radius: 6px; font-size: 12px; color: #f1c40f; line-height: 1.4; 
         }
 
-        /* Animated Delivery Tracker Component (အဆင့် ၃ ဆင့်ပါ Delivery Tracker) */
+        /* Animated Delivery Tracker Component */
         .yadanar-tracker-card {
             background: #241309;
             border: 2px solid #d4af37;
@@ -211,7 +211,7 @@
         .pulse-anim { animation: pulseGlow 2s infinite; }
         .truck-anim { animation: driveScooter 1.5s ease-in-out infinite; }
 
-        /* Menu Grid - ၂ ကော်လံ ယှဉ်ပြသရန် */
+        /* Menu Grid */
         .menu-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -223,7 +223,6 @@
             .menu-grid { grid-template-columns: 1fr; }
         }
         
-        /* Horizontal Circular Card Design */
         .menu-card { 
             display: flex; 
             align-items: center; 
@@ -293,7 +292,7 @@
         }
         .order-btn:hover { background: #f1c40f; }
 
-        /* Bottom Announcement Bar (အောက်ဆုံး ကြော်ငြာစာတန်း) */
+        /* Bottom Announcement Bar */
         .bottom-ad-banner {
             position: fixed;
             bottom: 0;
@@ -402,7 +401,6 @@
 
         <!-- 3. Main Ordering Screen -->
         <div id="mainScreen">
-            <!-- Top Title & Right Info Layout -->
             <div class="hero-top-section">
                 <div class="special-menu-title-box">
                     <div class="special-sub">SPECIAL FOOD</div>
@@ -417,7 +415,7 @@
                 </div>
             </div>
 
-            <!-- Animated Delivery Status Component (အဆင့် ၃ ဆင့်ပါ ပို့ဆောင်မှု Tracker) -->
+            <!-- Animated Delivery Status Component -->
             <div class="yadanar-tracker-card" id="deliveryTrackerCard">
                 <div class="tracker-header">
                     <div class="shop-badge-mini">💎 YADANAR</div>
@@ -425,7 +423,6 @@
                 </div>
 
                 <div class="steps-container">
-                    <!-- Step 1: Order Accepted -->
                     <div class="tracker-step" id="step1">
                         <div class="step-icon-wrap">
                             🛒
@@ -439,7 +436,6 @@
 
                     <div class="step-connector" id="conn1"></div>
 
-                    <!-- Step 2: Delivering -->
                     <div class="tracker-step" id="step2">
                         <div class="step-icon-wrap">
                             🛵
@@ -453,7 +449,6 @@
 
                     <div class="step-connector" id="conn2"></div>
 
-                    <!-- Step 3: Delivered -->
                     <div class="tracker-step" id="step3">
                         <div class="step-icon-wrap">
                             ✅
@@ -467,17 +462,16 @@
                 </div>
             </div>
 
-            <!-- Menu Grid -->
             <div id="menuGrid" class="menu-grid">မီနူးများ ဆွဲယူနေပါသည်...</div>
         </div>
     </div>
 
-    <!-- Bottom Announcement Bar (အောက်ဆုံး ကြော်ငြာစာတန်း) -->
+    <!-- Bottom Announcement Bar -->
     <div class="bottom-ad-banner">
-        <div class="marquee-text" id="adTickerText">📢 ကြော်ငြာချက် - ဝက်ခေါင်းသုတ် ညနေ ၅ နာရီ ရပါမည်။    |    YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
+        <div class="marquee-text" id="adTickerText">📢 ကြော်ငြာချက် - ဝက်ခေါင်းသုတ် ညနေ ၅ နာရီ ရပါမည်။    |    YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
     </div>
 
-    <!-- Image Zoom Preview Modal (ပုံနှိပ်လျှင် အကြီးကြည့်ရန်) -->
+    <!-- Image Zoom Preview Modal -->
     <div id="imagePreviewModal" class="modal" onclick="closeImagePreview()">
         <div class="img-preview-box" onclick="event.stopPropagation()">
             <img id="previewImgSrc" src="" alt="Menu Preview">
@@ -772,7 +766,7 @@
                 let calculatedDebt = 0;
 
                 if (!data.history || data.history.length === 0) {
-                    container.innerHTML = `<p style="color: #aaa; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
+                    container.innerHTML = `<p style="color: #aaa; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>";
                     document.getElementById("summaryDebt").innerText = "0";
                 } else {
                     container.innerHTML = data.history.map(h => {
@@ -832,7 +826,6 @@
             }
         }
 
-        /* 3 ဆင့်ပါ Delivery Tracker ကို အခြေအနေအလိုက် အလုပ်လုပ်စေရန် Function */
         function updateTrackerStatus(statusString) {
             let card = document.getElementById("deliveryTrackerCard");
             card.classList.add("active");
