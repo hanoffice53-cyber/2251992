@@ -8,14 +8,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#d4af37">
     <title>YADANAR - Food Ordering</title>
-    <!-- Google Fonts (Padauk & Oswald for Header) -->
+    <!-- Google Fonts (Padauk & Oswald) -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
             font-family: 'Padauk', sans-serif; 
-            background-color: #361e10; /* ပုံထဲက အညိုရင့်ရောင် နောက်ခံ */
+            background-color: #361e10; /* အညိုရင့်ရောင် နောက်ခံ */
             margin: 0; padding: 0; 
             width: 100%; min-height: 100vh; font-size: 16px;
             overflow-x: hidden;
@@ -31,63 +31,66 @@
         }
         .brand-area { display: flex; align-items: center; gap: 10px; }
         .brand-logo-circle {
-            width: 48px; height: 48px; border-radius: 50%;
+            width: 45px; height: 45px; border-radius: 50%;
             background: #1a1a1a; border: 2px solid #f9e79f;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #d4af37; font-size: 9px; font-weight: bold; text-align: center; line-height: 1.1;
+            color: #d4af37; font-size: 8px; font-weight: bold; text-align: center; line-height: 1.1;
             box-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
-        .header h2 { margin: 0; font-size: 18px; font-weight: bold; letter-spacing: 0.5px; color: #1a1008; }
+        .header h2 { margin: 0; font-size: 17px; font-weight: bold; letter-spacing: 0.5px; color: #1a1008; }
         
-        .header-btns { display: flex; gap: 8px; align-items: center; }
+        .header-btns { display: flex; gap: 6px; align-items: center; }
         .top-action-btn { 
-            background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 7px 12px; 
-            border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; position: relative; 
+            background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 6px 10px; 
+            border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; position: relative; 
         }
-        .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 1px 6px; font-size: 11px; position: absolute; top: -6px; right: -6px; }
+        .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 1px 5px; font-size: 10px; position: absolute; top: -5px; right: -5px; }
         
-        .container { padding: 15px 12px; width: 100%; max-width: 900px; margin: auto; padding-bottom: 85px; }
+        /* ဖုန်းမျက်နှာပြင်နှင့် အပြည့်အစုံ ဖြစ်စေရန် Padding များကို ချိန်ညှိထားသည် */
+        .container { padding: 12px 10px; width: 100%; max-width: 100%; margin: auto; padding-bottom: 90px; }
         
-        .card-box { background: #241309; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
+        .card-box { background: #241309; color: #d4af37; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 100%; width: 100%; text-align: center; border: 1px solid #d4af37; }
         #mainScreen, #pendingScreen { display: none; width: 100%; }
 
-        /* Top Banner & User Info Split Layout (ပုံထဲကအတိုင်း ဘယ်/ညာ ခွဲထားခြင်း) */
+        /* Top Banner & User Info Layout */
         .hero-top-section {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 20px;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
+            background: #1c0f07;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #5c3a21;
         }
         .special-menu-title-box {
             flex: 1;
-            min-width: 200px;
-            text-align: center;
+            min-width: 150px;
+            text-align: left;
         }
         .special-sub {
             font-family: 'Oswald', sans-serif;
             color: #ffffff;
-            font-size: 20px;
-            letter-spacing: 2px;
+            font-size: 14px;
+            letter-spacing: 1px;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
         .special-main {
             font-family: 'Oswald', sans-serif;
             color: #f39c12;
-            font-size: 52px;
+            font-size: 34px;
             line-height: 1;
-            margin: 2px 0 8px 0;
-            letter-spacing: 3px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin: 2px 0 4px 0;
+            letter-spacing: 2px;
         }
         .myanmar-subtitle-badge {
             display: inline-block;
             background: #140a04;
             color: #f39c12;
-            padding: 4px 18px;
-            font-size: 16px;
+            padding: 2px 10px;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 4px;
             border: 1px solid #5c3a21;
@@ -96,51 +99,107 @@
         .right-status-box {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            min-width: 190px;
-            max-width: 260px;
+            gap: 4px;
+            width: 100%;
         }
         .user-info-bar { 
             background: #241309; border: 1px solid #8b6508; padding: 6px 10px; 
-            border-radius: 6px; font-size: 12px; color: #f1c40f; line-height: 1.4; 
+            border-radius: 6px; font-size: 13px; color: #f1c40f; text-align: center;
         }
-        .status-banner { 
-            background: #241309; border: 1px solid #d4af37; padding: 6px 10px; 
-            border-radius: 6px; display: none; color: #f9e79f; font-size: 11px;
+
+        /* Animated Delivery Tracker Component */
+        .yadanar-tracker-card {
+            background: #241309;
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 12px;
+            color: #f3f3f3;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: none;
         }
-        .status-banner.active { display: block; }
-        .status-title { font-weight: bold; color: #f1c40f; font-size: 12px; margin-bottom: 2px; }
-        
-        /* Menu Grid - ပုံထဲကအတိုင်း ၂ ကော်လံ ယှဉ်ပြသရန် */
+        .yadanar-tracker-card.active { display: block; }
+        .tracker-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #5c3a21;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+        .shop-badge-mini {
+            background: linear-gradient(135deg, #d4af37, #aa771c);
+            color: #0c0c0c;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .tracker-title-text { font-size: 13px; font-weight: bold; color: #f9e79f; }
+        .steps-container { display: flex; flex-direction: column; gap: 4px; position: relative; }
+        .tracker-step { display: flex; align-items: center; gap: 10px; opacity: 0.4; transition: all 0.4s ease; }
+        .tracker-step.active { opacity: 1; }
+        .step-icon-wrap {
+            width: 35px; height: 35px; min-width: 35px; border-radius: 50%;
+            background: #140a04; border: 2px solid #8b6508;
+            display: flex; align-items: center; justify-content: center; font-size: 16px; position: relative;
+        }
+        .tracker-step.active .step-icon-wrap { border-color: #d4af37; background: #361e10; }
+        .step-badge-num {
+            position: absolute; top: -3px; right: -3px; background: #e74c3c; color: #fff;
+            font-size: 8px; font-weight: bold; width: 14px; height: 14px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 1px solid #fff;
+        }
+        .step-info { flex: 1; }
+        .step-name { font-weight: bold; font-size: 13px; color: #f9e79f; }
+        .step-desc { font-size: 10px; color: #bbb; }
+        .step-connector { width: 2px; height: 12px; background: #5c3a21; margin-left: 16px; }
+        .step-connector.active { background: #d4af37; }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        @keyframes driveScooter {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(4px); }
+            100% { transform: translateX(0px); }
+        }
+        .pulse-anim { animation: pulseGlow 2s infinite; }
+        .truck-anim { animation: driveScooter 1.5s ease-in-out infinite; }
+
+        /* Menu Grid - ဖုန်းမျက်နှာပြင်တွင် ၂ ကော်လံ ညီညာစွာပေါ်စေရန် (စာသားနှင့် ပုံများ ကြီးမားထင်ရှားစေခြင်း) */
         .menu-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 18px 12px; 
+            gap: 12px 8px; 
             width: 100%; 
             margin-top: 10px;
         }
-        @media (max-width: 360px) {
-            .menu-grid { grid-template-columns: 1fr; }
-        }
         
-        /* Horizontal Circular Card Design (ပုံထဲက ဒီဇိုင်းအတိအကျ) */
+        /* Menu Card Design (ပုံနှင့်စာသား ကြီးမားထင်ရှားစေရန် ပြုပြင်ထားသည်) */
         .menu-card { 
             display: flex; 
             align-items: center; 
             gap: 8px;
-            background: transparent;
-            padding: 4px;
+            background: #1c0f07;
+            padding: 8px 6px;
+            border-radius: 12px;
+            border: 1px solid #5c3a21;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
             transition: transform 0.2s ease;
         }
         .menu-card:active { transform: scale(0.98); }
         
+        /* မီနူးပုံအဝိုင်းများကို ပိုမိုကြီးမားထင်ရှားစေခြင်း (95px) */
         .menu-img-wrap { 
             position: relative; 
-            width: 82px; 
-            height: 82px; 
-            min-width: 82px;
+            width: 95px; 
+            height: 95px; 
+            min-width: 95px;
             border-radius: 50%; 
-            background: #fff; 
+            background: #000; 
             border: 3px solid #d4af37;
             box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             overflow: hidden;
@@ -156,26 +215,26 @@
             min-width: 0;
         }
         
-        /* ဟင်းပွဲနာမည် အဝါရောင် တံဆိပ်ပြား */
+        /* ဟင်းပွဲနာမည် စာသားများကို ဖုန်းမျက်နှာပြင်ပေါ်တွင် ကြီးမားစွာပြသရန် */
         .menu-title-pill { 
             background: #f39c12;
             color: #140a04;
             font-weight: bold; 
-            font-size: 14px; 
-            padding: 3px 14px 3px 10px;
-            border-radius: 4px 20px 20px 4px;
+            font-size: 15px; 
+            padding: 4px 10px 4px 8px;
+            border-radius: 4px 16px 16px 4px;
             margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100%;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
         }
         
         .menu-price-text {
             color: #f1c40f;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             margin-bottom: 4px;
             padding-left: 2px;
         }
@@ -184,17 +243,18 @@
             background: #d4ac0d; 
             color: #140a04; 
             border: none; 
-            padding: 4px 12px; 
-            border-radius: 4px;
+            padding: 5px 10px; 
+            border-radius: 6px;
             cursor: pointer; 
             font-weight: bold; 
             font-size: 13px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
             transition: background 0.2s; 
         }
         .order-btn:hover { background: #f1c40f; }
 
-        /* အောက်ဆုံး ကြော်ငြာစာတန်း (Bottom Announcement Bar) */
+        /* Bottom Announcement Bar (အောက်ဆုံး ကြော်ငြာစာတန်း) */
         .bottom-ad-banner {
             position: fixed;
             bottom: 0;
@@ -203,8 +263,8 @@
             background: #f1c40f;
             color: #0c0c0c;
             font-weight: bold;
-            font-size: 18px;
-            padding: 10px 0;
+            font-size: 16px;
+            padding: 9px 0;
             z-index: 30;
             box-shadow: 0 -3px 12px rgba(0,0,0,0.6);
             border-top: 2px solid #fff;
@@ -214,7 +274,7 @@
         .marquee-text {
             display: inline-block;
             padding-left: 100%;
-            animation: marqueeAnim 15s linear infinite;
+            animation: marqueeAnim 16s linear infinite;
         }
         @keyframes marqueeAnim {
             0%   { transform: translate(0, 0); }
@@ -227,7 +287,6 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b8860b; padding-bottom: 10px; margin-bottom: 15px; }
         .close-top-btn { background: #f39c12; color: #0c0c0c; border: none; font-size: 15px; font-weight: bold; padding: 6px 12px; border-radius: 8px; cursor: pointer; }
         
-        /* Image Preview Modal Styling */
         .img-preview-box {
             background: #1a0d06;
             border: 2px solid #f39c12;
@@ -259,13 +318,13 @@
         <div class="brand-area">
             <div class="brand-logo-circle">
                 <span>RESTAURANT</span>
-                <span style="color:#fff; font-size:10px;">YADANAR</span>
+                <span style="color:#fff; font-size:9px;">YADANAR</span>
             </div>
             <h2>YADANAR Fastfood</h2>
         </div>
         <div id="headerActionBtns" class="header-btns" style="display:none;">
-            <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း/အကြွေး</button>
-            <button class="top-action-btn" onclick="toggleCart()">🛒 ခြင်းတောင်း <span id="cartCount" class="badge">0</span></button>
+            <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း</button>
+            <button class="top-action-btn" onclick="toggleCart()">🛒 ခြင်း <span id="cartCount" class="badge">0</span></button>
         </div>
     </div>
 
@@ -316,10 +375,55 @@
                     <div class="user-info-bar">
                         📌 ကဒ် [<b id="dispCustCode"></b>] | အဆောင် <b id="dispBuilding"></b>, အခန်း (<b id="dispRoomNo"></b>)
                     </div>
+                </div>
+            </div>
 
-                    <div id="statusBanner" class="status-banner">
-                        <div id="statusText" class="status-title">⏳ အော်ဒါ ပို့ဆောင်နေပါသည်...</div>
-                        <div id="statusDetail" style="color: #ddd;"></div>
+            <!-- Animated Delivery Status Component (အဆင့် ၃ ဆင့်ပါ ပို့ဆောင်မှု Tracker) -->
+            <div class="yadanar-tracker-card" id="deliveryTrackerCard">
+                <div class="tracker-header">
+                    <div class="shop-badge-mini">💎 YADANAR</div>
+                    <div class="tracker-title-text" id="trackerHeaderTitle">📦 အော်ဒါနှင့် ပို့ဆောင်မှု အခြေအနေ</div>
+                </div>
+
+                <div class="steps-container">
+                    <!-- Step 1: Order Accepted -->
+                    <div class="tracker-step" id="step1">
+                        <div class="step-icon-wrap">
+                            🛒
+                            <div class="step-badge-num">1</div>
+                        </div>
+                        <div class="step-info">
+                            <div class="step-name">အော်ဒါလက်ခံပြီး</div>
+                            <div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div>
+                        </div>
+                    </div>
+
+                    <div class="step-connector" id="conn1"></div>
+
+                    <!-- Step 2: Delivering -->
+                    <div class="tracker-step" id="step2">
+                        <div class="step-icon-wrap">
+                            🛵
+                            <div class="step-badge-num">2</div>
+                        </div>
+                        <div class="step-info">
+                            <div class="step-name">ပို့ဆောင်နေသည်</div>
+                            <div class="step-desc">အစားအစာများ ပို့ဆောင်ရန် ထွက်ခွာပါပြီ</div>
+                        </div>
+                    </div>
+
+                    <div class="step-connector" id="conn2"></div>
+
+                    <!-- Step 3: Delivered -->
+                    <div class="tracker-step" id="step3">
+                        <div class="step-icon-wrap">
+                            ✅
+                            <div class="step-badge-num">3</div>
+                        </div>
+                        <div class="step-info">
+                            <div class="step-name">ပို့ဆောင်ပြီးပါပြီ</div>
+                            <div class="step-desc">အခန်းဝသို့ ရောက်ရှိပါပြီ</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -329,7 +433,7 @@
         </div>
     </div>
 
-    <!-- Bottom Announcement Bar (ကြော်ငြာစာတန်း) -->
+    <!-- Bottom Announcement Bar (အောက်ဆုံး ကြော်ငြာစာတန်း) -->
     <div class="bottom-ad-banner">
         <div class="marquee-text" id="adTickerText">📢 ကြော်ငြာချက် - ဝက်ခေါင်းသုတ် ညနေ ၅ နာရီ ရပါမည်။    |    YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
     </div>
@@ -389,7 +493,7 @@
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzQIAY5sx4IzHi-22tZwPNG4RUsz3_UM1uIli6UAHFal5PiPX2jW0btFSSs9BrtFIoy/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw499yqdjzgAb0e3En5WjxTB1rtwVXKPeSYRtsF7_lYBaNl4OfiBpLO69fzjNOjtlM/exec";
         let menus = [];
         let cart = {};
         let statusCheckInterval = null;
@@ -442,7 +546,6 @@
                 localStorage.setItem("yadanar_building", userData.building);
                 localStorage.setItem("yadanar_roomNo", userData.roomNo);
 
-                // Backend မှ ကြော်ငြာစာသား (res.announcement) ပါလာပါက အောက်ခြေစာတန်းတွင် ပြောင်းလဲပြသပေးမည်
                 if (res.announcement) {
                     document.getElementById("adTickerText").innerText = "📢 " + res.announcement;
                 }
@@ -462,6 +565,8 @@
 
                     if (res.activeOrder) {
                         showActiveOrder(res.activeOrder.items, res.activeOrder.orderId, res.activeOrder.status);
+                    } else {
+                        document.getElementById("deliveryTrackerCard").classList.remove("active");
                     }
                 } else {
                     document.getElementById("loginScreen").style.display = "none";
@@ -541,7 +646,6 @@
             });
         }
 
-        // ပုံနှိပ်လျှင် အကြီးချဲ့ကြည့်ရန် Function
         function openImagePreview(code) {
             let item = menus.find(m => String(m.code) === String(code));
             if (!item) return;
@@ -689,19 +793,48 @@
             }
         }
 
-       function showActiveOrder(itemsSummary, orderId, initialStatus) {
-            let banner = document.getElementById("statusBanner");
-            let title = document.getElementById("statusText");
-            let detail = document.getElementById("statusDetail");
-            let custCode = localStorage.getItem("yadanar_custCode");
-            
-            banner.classList.add("active");
-            title.innerHTML = "🛵 " + (initialStatus || "မှာယူထားသည်") + "... (" + orderId + ")";
-            detail.innerHTML = "မှာယူထားသည်များ: <b>" + itemsSummary + "</b>";
+        function updateTrackerStatus(statusString) {
+            let card = document.getElementById("deliveryTrackerCard");
+            card.classList.add("active");
 
+            let s1 = document.getElementById("step1");
+            let s2 = document.getElementById("step2");
+            let s3 = document.getElementById("step3");
+            let c1 = document.getElementById("conn1");
+            let c2 = document.getElementById("conn2");
+
+            s1.classList.remove("active");
+            s2.classList.remove("active");
+            s3.classList.remove("active");
+            c1.classList.remove("active");
+            c2.classList.remove("active");
+            s1.querySelector('.step-icon-wrap').classList.remove("pulse-anim");
+            s2.querySelector('.step-icon-wrap').classList.remove("truck-anim");
+
+            if (statusString.includes("မှာယူထားသည်") || statusString.includes("လက်ခံ")) {
+                s1.classList.add("active");
+                s1.querySelector('.step-icon-wrap').classList.add("pulse-anim");
+            } else if (statusString.includes("ပို့ဆောင်နေ") || statusString.includes("ထွက်ခွာ")) {
+                s1.classList.add("active");
+                c1.classList.add("active");
+                s2.classList.add("active");
+                s2.querySelector('.step-icon-wrap').classList.add("truck-anim");
+            } else if (statusString.includes("ရောက်ရှိ") || statusString.includes("ပြီး")) {
+                s1.classList.add("active");
+                c1.classList.add("active");
+                s2.classList.add("active");
+                c2.classList.add("active");
+                s3.classList.add("active");
+            }
+        }
+
+        function showActiveOrder(itemsSummary, orderId, initialStatus) {
+            updateTrackerStatus(initialStatus || "မှာယူထားသည်");
+
+            let custCode = localStorage.getItem("yadanar_custCode");
             callBackend({ action: "getUserInitData", custCode: custCode }).then(res => {
                 if (res && res.status === "success" && res.activeOrder) {
-                    title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
+                    updateTrackerStatus(res.activeOrder.status);
                 }
             });
 
@@ -710,14 +843,13 @@
                 const res = await callBackend({ action: "getUserInitData", custCode: custCode });
                 if (res && res.status === "success") {
                     if (!res.activeOrder) {
-                        title.innerHTML = "✅ ပို့ဆောင်ပြီးပါပြီ";
-                        detail.innerHTML = "မှာယူထားသော အစားအစာများ ရောက်ရှိပါပြီ။ သုံးဆောင်နိုင်ပါပြီ။";
-                        banner.style.borderColor = "#27ae60";
-                        title.style.color = "#27ae60";
+                        updateTrackerStatus("ပို့ဆောင်ပြီးပါပြီ");
                         clearInterval(statusCheckInterval);
-                        setTimeout(() => { banner.classList.remove("active"); }, 5000);
+                        setTimeout(() => { 
+                            document.getElementById("deliveryTrackerCard").classList.remove("active"); 
+                        }, 8000);
                     } else {
-                        title.innerHTML = "🛵 " + res.activeOrder.status + "... (" + res.activeOrder.orderId + ")";
+                        updateTrackerStatus(res.activeOrder.status);
                     }
                 }
             }, 5000);
