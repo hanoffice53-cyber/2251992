@@ -8,116 +8,261 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#d4af37">
     <title>YADANAR - Food Ordering</title>
-    <!-- Google Fonts (Padauk) မြန်မာဖောင့် မှန်ကန်စေရန် -->
-    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Padauk & Oswald for Header) -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
             font-family: 'Padauk', sans-serif; 
-            background-color: #0c0c0c; 
+            background-color: #361e10; /* ပုံထဲက အညိုရင့်ရောင် နောက်ခံ */
             margin: 0; padding: 0; 
             width: 100%; min-height: 100vh; font-size: 16px;
             overflow-x: hidden;
             color: #f3f3f3;
         }
+
+        /* Header Section */
         .header { 
             background: linear-gradient(135deg, #b8860b, #d4af37, #8b6508); 
-            color: #0c0c0c; padding: 16px 20px; 
+            color: #0c0c0c; padding: 10px 15px; 
             display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 15px rgba(212,175,55,0.3); width: 100%;
+            position: sticky; top: 0; z-index: 20; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 100%;
         }
-        .header h2 { margin: 0; font-size: 22px; font-weight: bold; letter-spacing: 1px; }
-        .header-btns { display: flex; gap: 10px; align-items: center; }
+        .brand-area { display: flex; align-items: center; gap: 10px; }
+        .brand-logo-circle {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #1a1a1a; border: 2px solid #f9e79f;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #d4af37; font-size: 9px; font-weight: bold; text-align: center; line-height: 1.1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+        .header h2 { margin: 0; font-size: 18px; font-weight: bold; letter-spacing: 0.5px; color: #1a1008; }
+        
+        .header-btns { display: flex; gap: 8px; align-items: center; }
         .top-action-btn { 
-            background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 9px 16px; 
-            border-radius: 20px; font-weight: bold; font-size: 14px; cursor: pointer; position: relative; 
+            background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 7px 12px; 
+            border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; position: relative; 
         }
-        .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; position: absolute; top: -5px; right: -5px; }
+        .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 1px 6px; font-size: 11px; position: absolute; top: -6px; right: -6px; }
         
-        .container { padding: 25px 15px; width: 100%; max-width: 1200px; margin: auto; padding-bottom: 120px; }
+        .container { padding: 15px 12px; width: 100%; max-width: 900px; margin: auto; padding-bottom: 85px; }
         
-        .card-box { background: #141414; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
+        .card-box { background: #241309; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
         #mainScreen, #pendingScreen { display: none; width: 100%; }
 
-        .user-info-bar { background: #141414; border: 1px solid #d4af37; padding: 14px 18px; border-radius: 12px; margin-bottom: 25px; font-size: 16px; color: #d4af37; line-height: 1.5; box-shadow: inset 0 0 10px rgba(212,175,55,0.1); }
-        .status-banner { background: #1a150c; border: 2px solid #d4af37; padding: 16px; border-radius: 12px; margin-bottom: 25px; display: none; color: #f9e79f; }
-        .status-banner.active { display: block; }
-        .status-title { font-weight: bold; color: #f1c40f; font-size: 17px; margin-bottom: 5px; }
-        
-        .section-title { font-size: 24px; margin-bottom: 20px; color: #d4af37; font-weight: bold; text-align: center; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
-        
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; width: 100%; }
-        
-        .menu-card { 
-            background: #161616; 
-            border-radius: 14px; 
-            overflow: hidden; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.7); 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            border: 1px solid #b8860b; 
-            transition: all 0.3s ease;
-        }
-        .menu-card:hover { transform: translateY(-5px); border-color: #ffd700; box-shadow: 0 12px 30px rgba(212,175,55,0.2); }
-        
-        .menu-img-wrap { position: relative; width: 100%; height: 190px; background: #000; border-bottom: 1px solid #333; }
-        .menu-img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
-        
-        .price-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: linear-gradient(135deg, #d4af37, #aa771c);
-            color: #0c0c0c;
-            border-radius: 50%;
-            width: 65px;
-            height: 65px;
+        /* Top Banner & User Info Split Layout (ပုံထဲကအတိုင်း ဘယ်/ညာ ခွဲထားခြင်း) */
+        .hero-top-section {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            border: 2px solid #fff;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .special-menu-title-box {
+            flex: 1;
+            min-width: 200px;
             text-align: center;
-            line-height: 1.1;
+        }
+        .special-sub {
+            font-family: 'Oswald', sans-serif;
+            color: #ffffff;
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+        .special-main {
+            font-family: 'Oswald', sans-serif;
+            color: #f39c12;
+            font-size: 52px;
+            line-height: 1;
+            margin: 2px 0 8px 0;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+        }
+        .myanmar-subtitle-badge {
+            display: inline-block;
+            background: #140a04;
+            color: #f39c12;
+            padding: 4px 18px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            border: 1px solid #5c3a21;
         }
 
-        .menu-info { padding: 18px; text-align: center; }
-        .menu-title { font-weight: bold; font-size: 19px; margin-bottom: 8px; color: #f9e79f; letter-spacing: 0.5px; }
-        .menu-tag { font-size: 13px; color: #aaa; margin-bottom: 6px; font-style: italic; }
+        .right-status-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 190px;
+            max-width: 260px;
+        }
+        .user-info-bar { 
+            background: #241309; border: 1px solid #8b6508; padding: 6px 10px; 
+            border-radius: 6px; font-size: 12px; color: #f1c40f; line-height: 1.4; 
+        }
+        .status-banner { 
+            background: #241309; border: 1px solid #d4af37; padding: 6px 10px; 
+            border-radius: 6px; display: none; color: #f9e79f; font-size: 11px;
+        }
+        .status-banner.active { display: block; }
+        .status-title { font-weight: bold; color: #f1c40f; font-size: 12px; margin-bottom: 2px; }
+        
+        /* Menu Grid - ပုံထဲကအတိုင်း ၂ ကော်လံ ယှဉ်ပြသရန် */
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 18px 12px; 
+            width: 100%; 
+            margin-top: 10px;
+        }
+        @media (max-width: 360px) {
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* Horizontal Circular Card Design (ပုံထဲက ဒီဇိုင်းအတိအကျ) */
+        .menu-card { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            background: transparent;
+            padding: 4px;
+            transition: transform 0.2s ease;
+        }
+        .menu-card:active { transform: scale(0.98); }
+        
+        .menu-img-wrap { 
+            position: relative; 
+            width: 82px; 
+            height: 82px; 
+            min-width: 82px;
+            border-radius: 50%; 
+            background: #fff; 
+            border: 3px solid #d4af37;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+        .menu-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .menu-details-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* ဟင်းပွဲနာမည် အဝါရောင် တံဆိပ်ပြား */
+        .menu-title-pill { 
+            background: #f39c12;
+            color: #140a04;
+            font-weight: bold; 
+            font-size: 14px; 
+            padding: 3px 14px 3px 10px;
+            border-radius: 4px 20px 20px 4px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+        }
+        
+        .menu-price-text {
+            color: #f1c40f;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 4px;
+            padding-left: 2px;
+        }
         
         .order-btn { 
-            background: linear-gradient(135deg, #d4af37, #b8860b); 
-            color: #0c0c0c; 
+            background: #d4ac0d; 
+            color: #140a04; 
             border: none; 
-            padding: 14px; 
-            width: 100%; 
+            padding: 4px 12px; 
+            border-radius: 4px;
             cursor: pointer; 
             font-weight: bold; 
-            font-size: 16px; 
-            letter-spacing: 1px;
+            font-size: 13px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
             transition: background 0.2s; 
         }
-        .order-btn:hover { background: linear-gradient(135deg, #ffd700, #d4af37); }
+        .order-btn:hover { background: #f1c40f; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
-        .modal-content { background: #161616; color: #f3f3f3; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 15px; padding: 25px; overflow-y: auto; text-align: left; border: 1px solid #d4af37; box-shadow: 0 10px 30px rgba(212,175,55,0.3); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #b8860b; padding-bottom: 12px; margin-bottom: 15px; }
-        .close-top-btn { background: #b8860b; color: #0c0c0c; border: none; font-size: 16px; font-weight: bold; padding: 6px 14px; border-radius: 8px; cursor: pointer; }
+        /* အောက်ဆုံး ကြော်ငြာစာတန်း (Bottom Announcement Bar) */
+        .bottom-ad-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #f1c40f;
+            color: #0c0c0c;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 0;
+            z-index: 30;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.6);
+            border-top: 2px solid #fff;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marqueeAnim 15s linear infinite;
+        }
+        @keyframes marqueeAnim {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* Modals & Image Lightbox */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: #241309; color: #f3f3f3; width: 92%; max-width: 550px; max-height: 85vh; border-radius: 15px; padding: 20px; overflow-y: auto; text-align: left; border: 2px solid #d4af37; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b8860b; padding-bottom: 10px; margin-bottom: 15px; }
+        .close-top-btn { background: #f39c12; color: #0c0c0c; border: none; font-size: 15px; font-weight: bold; padding: 6px 12px; border-radius: 8px; cursor: pointer; }
         
+        /* Image Preview Modal Styling */
+        .img-preview-box {
+            background: #1a0d06;
+            border: 2px solid #f39c12;
+            border-radius: 16px;
+            padding: 15px;
+            max-width: 90%;
+            width: 380px;
+            text-align: center;
+            position: relative;
+        }
+        .img-preview-box img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #000;
+            margin-bottom: 12px;
+        }
+
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #d4af37; }
-        .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #b8860b; border-radius: 10px; background-color: #0c0c0c; color: #fff; }
-        .checkout-btn { background: linear-gradient(135deg, #27ae60, #1e8449); color: white; border: none; padding: 16px; width: 100%; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; }
+        .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #b8860b; border-radius: 10px; background-color: #140a04; color: #fff; }
+        .checkout-btn { background: linear-gradient(135deg, #27ae60, #1e8449); color: white; border: none; padding: 14px; width: 100%; font-size: 17px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h2>YADANAR Fastfood</h2>
+        <div class="brand-area">
+            <div class="brand-logo-circle">
+                <span>RESTAURANT</span>
+                <span style="color:#fff; font-size:10px;">YADANAR</span>
+            </div>
+            <h2>YADANAR Fastfood</h2>
+        </div>
         <div id="headerActionBtns" class="header-btns" style="display:none;">
             <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း/အကြွေး</button>
             <button class="top-action-btn" onclick="toggleCart()">🛒 ခြင်းတောင်း <span id="cartCount" class="badge">0</span></button>
@@ -150,7 +295,7 @@
         <div id="pendingScreen" class="card-box">
             <div style="font-size: 50px; margin-bottom: 10px;">⏳</div>
             <h3 style="color: #d4af37; margin-top: 0;">အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်</h3>
-            <p style="color: #aaa; font-size: 15px; line-height: 1.6;">
+            <p style="color: #ddd; font-size: 15px; line-height: 1.6;">
                 သင့်အကောင့် လျှောက်ထားမှုကို ရောင်းသူ (Admin) ထံသို့ ပေးပို့ပြီးပါပြီ။ အက်ဒမင်မှ ခွင့်ပြုချက်ပေးပြီးမှသာ မီနူးများကို ကြည့်ရှု၍ အော်ဒါတင်နိုင်မည် ဖြစ်ပါသည်။
             </p>
             <button class="checkout-btn" style="background: #34495e;" onclick="checkApprovalStatus()">🔄 အခြေအနေ ပြန်စစ်မည်</button>
@@ -159,17 +304,46 @@
 
         <!-- 3. Main Ordering Screen -->
         <div id="mainScreen">
-            <div class="user-info-bar">
-                📌 ကဒ် [<b id="dispCustCode"></b>] | အဆောင် <b id="dispBuilding"></b>, အခန်း (<b id="dispRoomNo"></b>)
+            <!-- Top Title & Right Info Layout -->
+            <div class="hero-top-section">
+                <div class="special-menu-title-box">
+                    <div class="special-sub">SPECIAL FOOD</div>
+                    <div class="special-main">MENU</div>
+                    <div class="myanmar-subtitle-badge">ဟင်းပွဲ မီနူးများ</div>
+                </div>
+
+                <div class="right-status-box">
+                    <div class="user-info-bar">
+                        📌 ကဒ် [<b id="dispCustCode"></b>] | အဆောင် <b id="dispBuilding"></b>, အခန်း (<b id="dispRoomNo"></b>)
+                    </div>
+
+                    <div id="statusBanner" class="status-banner">
+                        <div id="statusText" class="status-title">⏳ အော်ဒါ ပို့ဆောင်နေပါသည်...</div>
+                        <div id="statusDetail" style="color: #ddd;"></div>
+                    </div>
+                </div>
             </div>
 
-            <div id="statusBanner" class="status-banner">
-                <div id="statusText" class="status-title">⏳ အော်ဒါ ပို့ဆောင်နေပါသည်...</div>
-                <div id="statusDetail" style="font-size: 15px; color: #ddd;"></div>
-            </div>
-
-            <div class="section-title"><b>ဟင်းပွဲ မီနူးများ</b></div>
+            <!-- Menu Grid -->
             <div id="menuGrid" class="menu-grid">မီနူးများ ဆွဲယူနေပါသည်...</div>
+        </div>
+    </div>
+
+    <!-- Bottom Announcement Bar (ကြော်ငြာစာတန်း) -->
+    <div class="bottom-ad-banner">
+        <div class="marquee-text" id="adTickerText">📢 ကြော်ငြာချက် - ဝက်ခေါင်းသုတ် ညနေ ၅ နာရီ ရပါမည်။    |    YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
+    </div>
+
+    <!-- Image Zoom Preview Modal (ပုံနှိပ်လျှင် အကြီးကြည့်ရန်) -->
+    <div id="imagePreviewModal" class="modal" onclick="closeImagePreview()">
+        <div class="img-preview-box" onclick="event.stopPropagation()">
+            <img id="previewImgSrc" src="" alt="Menu Preview">
+            <div id="previewImgTitle" style="color: #f39c12; font-size: 20px; font-weight: bold; margin-bottom: 4px;"></div>
+            <div id="previewImgPrice" style="color: #fff; font-size: 16px; margin-bottom: 14px;"></div>
+            <div style="display: flex; gap: 10px;">
+                <button class="close-top-btn" style="flex:1; background:#555; color:#fff;" onclick="closeImagePreview()">✕ ပိတ်မည်</button>
+                <button id="previewAddCartBtn" class="close-top-btn" style="flex:2; background:#f39c12; color:#000;">+ ခြင်းတောင်းထဲထည့်မည်</button>
+            </div>
         </div>
     </div>
 
@@ -177,11 +351,11 @@
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>🛒 မှာယူမည့် စာရင်း</h3>
+                <h3 style="margin:0; color:#f39c12;">🛒 မှာယူမည့် စာရင်း</h3>
                 <button class="close-top-btn" onclick="toggleCart()">✕ ပိတ်မည်</button>
             </div>
             <div id="cartItemsList"></div>
-            <div class="total-box" style="background: #222; border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 19px; font-weight: bold; color: #d4af37; display: flex; justify-content: space-between;">
+            <div class="total-box" style="background: #140a04; border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 18px; font-weight: bold; color: #f39c12; display: flex; justify-content: space-between;">
                 <span>ကျသင့်ငွေ စုစုပေါင်း:</span>
                 <span><span id="totalPrice">0</span> THB</span>
             </div>
@@ -193,12 +367,12 @@
     <div id="historyModal" class="modal">
         <div class="modal-content" style="max-width: 650px;">
             <div class="modal-header">
-                <h3>📋 အကောင့်အကျဉ်းချုပ်နှင့် မှတ်တမ်း</h3>
+                <h3 style="margin:0; color:#f39c12;">📋 အကောင့်အကျဉ်းချုပ်နှင့် မှတ်တမ်း</h3>
                 <button class="close-top-btn" onclick="toggleHistoryModal()">✕ ပိတ်မည်</button>
             </div>
             
-            <div style="background: #1f1a10; border: 1px solid #d4af37; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-                <div style="font-weight: bold; color: #d4af37; margin-bottom: 8px; font-size: 16px;">💳 အကောင့်အကျဉ်းချုပ်</div>
+            <div style="background: #140a04; border: 1px solid #d4af37; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <div style="font-weight: bold; color: #f39c12; margin-bottom: 8px; font-size: 16px;">💳 အကောင့်အကျဉ်းချုပ်</div>
                 <div style="display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 4px;">
                     <span>ကဒ်နံပါတ်: <b id="summaryCardNo">-</b></span>
                     <span>အခန်း: <b id="summaryRoom">-</b></span>
@@ -209,8 +383,8 @@
                 </div>
             </div>
 
-            <div style="font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #d4af37;">📅 မှာယူမှု မှတ်တမ်းများ</div>
-            <div id="orderHistoryList"><p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
+            <div style="font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #f39c12;">📅 မှာယူမှု မှတ်တမ်းများ</div>
+            <div id="orderHistoryList"><p style="color: #aaa; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
         </div>
     </div>
 
@@ -267,6 +441,11 @@
                 localStorage.setItem("yadanar_custCode", custCode);
                 localStorage.setItem("yadanar_building", userData.building);
                 localStorage.setItem("yadanar_roomNo", userData.roomNo);
+
+                // Backend မှ ကြော်ငြာစာသား (res.announcement) ပါလာပါက အောက်ခြေစာတန်းတွင် ပြောင်းလဲပြသပေးမည်
+                if (res.announcement) {
+                    document.getElementById("adTickerText").innerText = "📢 " + res.announcement;
+                }
 
                 if (userData.approvalStatus === "approved") {
                     document.getElementById("loginScreen").style.display = "none";
@@ -343,24 +522,44 @@
             let grid = document.getElementById("menuGrid");
             grid.innerHTML = "";
             if (!menus || menus.length === 0) { 
-                grid.innerHTML = "<p style='grid-column: span 2; text-align:center; color:#aaa;'>လောလောဆယ် ရရှိနိုင်သော မီနူး မရှိသေးပါ။</p>"; 
+                grid.innerHTML = "<p style='grid-column: span 2; text-align:center; color:#ddd;'>လောလောဆယ် ရရှိနိုင်သော မီနူး မရှိသေးပါ။</p>"; 
                 return; 
             }
             menus.forEach(m => {
                 grid.innerHTML += `
                     <div class="menu-card">
-                        <div class="menu-img-wrap">
+                        <div class="menu-img-wrap" onclick="openImagePreview('${m.code}')">
                             <img src="${m.img}" class="menu-img" alt="${m.name}">
-                            <div class="price-badge">${m.price}<br><span style="font-size:9px;">THB</span></div>
                         </div>
-                        <div class="menu-info">
-                            <div class="menu-title">[${m.code}] ${m.name}</div>
-                            ${m.tag ? `<div class="menu-tag">${m.tag}</div>` : ''}
+                        <div class="menu-details-col">
+                            <div class="menu-title-pill">${m.name}</div>
+                            <div class="menu-price-text">${m.price}฿</div>
+                            <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
                         </div>
-                        <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
                     </div>
                 `;
             });
+        }
+
+        // ပုံနှိပ်လျှင် အကြီးချဲ့ကြည့်ရန် Function
+        function openImagePreview(code) {
+            let item = menus.find(m => String(m.code) === String(code));
+            if (!item) return;
+            document.getElementById("previewImgSrc").src = item.img;
+            document.getElementById("previewImgTitle").innerText = `[${item.code}] ${item.name}`;
+            document.getElementById("previewImgPrice").innerText = `ဈေးနှုန်း - ${item.price} THB`;
+            
+            let addBtn = document.getElementById("previewAddCartBtn");
+            addBtn.onclick = function() {
+                addToCart(item.code);
+                closeImagePreview();
+            };
+            
+            document.getElementById("imagePreviewModal").style.display = "flex";
+        }
+
+        function closeImagePreview() {
+            document.getElementById("imagePreviewModal").style.display = "none";
         }
 
         function addToCart(code) {
@@ -384,22 +583,22 @@
             let list = document.getElementById("cartItemsList");
             list.innerHTML = "";
             if (Object.keys(cart).length === 0) {
-                list.innerHTML = "<p style='text-align:center; color:#888; padding:20px 0;'>ခြင်းတောင်းထဲတွင် ဟင်းပွဲ မရှိသေးပါ။</p>";
+                list.innerHTML = "<p style='text-align:center; color:#aaa; padding:20px 0;'>ခြင်းတောင်းထဲတွင် ဟင်းပွဲ မရှိသေးပါ။</p>";
             }
             for (let code in cart) {
                 let item = cart[code];
                 count += item.qty;
                 total += item.price * item.qty;
                 list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding:14px 0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #4a2c18; padding:14px 0;">
                         <div>
                             <div style="font-weight:bold; font-size:16px; color:#fff;">${item.name}</div>
-                            <div style="color:#aaa; font-size:14px;">${item.price} THB × ${item.qty} = <b style="color:#d4af37;">${item.price * item.qty} THB</b></div>
+                            <div style="color:#ccc; font-size:14px;">${item.price} THB × ${item.qty} = <b style="color:#f39c12;">${item.price * item.qty} THB</b></div>
                         </div>
                         <div style="display:flex; align-items:center; gap:10px;">
-                            <button onclick="changeQty('${code}', -1)" style="width:36px; height:36px; font-weight:bold; background:#333; color:#fff; border:none; border-radius:6px; cursor:pointer;">-</button>
+                            <button onclick="changeQty('${code}', -1)" style="width:36px; height:36px; font-weight:bold; background:#4a2c18; color:#fff; border:none; border-radius:6px; cursor:pointer;">-</button>
                             <span style="color:#fff; font-weight:bold;">${item.qty}</span>
-                            <button onclick="changeQty('${code}', 1)" style="width:36px; height:36px; font-weight:bold; background:#333; color:#fff; border:none; border-radius:6px; cursor:pointer;">+</button>
+                            <button onclick="changeQty('${code}', 1)" style="width:36px; height:36px; font-weight:bold; background:#4a2c18; color:#fff; border:none; border-radius:6px; cursor:pointer;">+</button>
                         </div>
                     </div>
                 `;
@@ -421,48 +620,46 @@
             document.getElementById("summaryCardNo").innerText = custCode;
             document.getElementById("summaryRoom").innerText = building + " " + roomNo;
             document.getElementById("summaryDebt").innerText = "တွက်ချက်နေပါသည်...";
-            document.getElementById("orderHistoryList").innerHTML = `<p style="color: #888; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
+            document.getElementById("orderHistoryList").innerHTML = `<p style="color: #aaa; font-size: 14px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
             document.getElementById("historyModal").style.display = "flex";
 
             const data = await callBackend({ action: "getUserHistory", custCode: custCode });
             if (data && data.status === "success") {
                 let container = document.getElementById("orderHistoryList");
-                let calculatedDebt = 0; // အကြွေးစုစုပေါင်း တွက်ရန် Variable
+                let calculatedDebt = 0;
 
                 if (!data.history || data.history.length === 0) {
-                    container.innerHTML = `<p style="color: #888; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
+                    container.innerHTML = `<p style="color: #aaa; font-size: 14px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
                     document.getElementById("summaryDebt").innerText = "0";
                 } else {
                     container.innerHTML = data.history.map(h => {
                         const isSoldOut = String(h.status).trim() === "ကုန်သွားပြီး";
                         const isCredit = String(h.paymentType).trim() === "အကြွေး";
                         
-                        // ကုန်သွားပြီး မဟုတ်ဘဲ "အကြွေး" ဖြစ်နေပါက အကြွေးစုစုပေါင်းထဲ ပေါင်းထည့်မည်
                         if (!isSoldOut && isCredit) {
                             let numericTotal = Number(String(h.total).replace(/[^0-9.-]+/g, "")) || 0;
                             calculatedDebt += numericTotal;
                         }
 
                         return `
-                        <div style="padding: 12px 0; border-bottom: 1px solid #333; font-size: 15px; color: #ddd;">
+                        <div style="padding: 12px 0; border-bottom: 1px solid #4a2c18; font-size: 15px; color: #ddd;">
                             <div>
-                                <b style="color:#d4af37;">[${h.id}]</b> ${h.text} 
-                                ${isSoldOut ? '<span style="color:red; font-weight:bold;">(ကုန်သွားပြီး - ငွေမပေါင်းပါ)</span>' : `<span style="color: #d4af37; font-weight:bold;">- ${h.total} THB</span>`}
+                                <b style="color:#f39c12;">[${h.id}]</b> ${h.text} 
+                                ${isSoldOut ? '<span style="color:#e74c3c; font-weight:bold;">(ကုန်သွားပြီး - ငွေမပေါင်းပါ)</span>' : `<span style="color: #f39c12; font-weight:bold;">- ${h.total} THB</span>`}
                             </div>
-                            <div style="font-size:13px; color:#aaa; margin-top:4px; display:flex; justify-content:space-between;">
+                            <div style="font-size:13px; color:#bbb; margin-top:4px; display:flex; justify-content:space-between;">
                                 <span>${h.paymentType} | ${h.status}</span>
                                 <span>${h.date}</span>
                             </div>
                         </div>
                     `}).join('');
 
-                    // Backend မှ totalDebt ပါလာလျှင် ၎င်းကိုသုံးမည်၊ မပါလျှင် Frontend မှ တွက်ထားသော calculatedDebt ကို ပြမည်
                     let finalDebt = (Number(data.totalDebt) > 0) ? Number(data.totalDebt) : calculatedDebt;
                     document.getElementById("summaryDebt").innerText = finalDebt.toLocaleString();
                 }
             } else {
                 document.getElementById("summaryDebt").innerText = "0";
-                document.getElementById("orderHistoryList").innerHTML = `<p style="color: red; font-size: 14px;">စာရင်းဆွဲယူရာတွင် အမှားရှိပါသည်။</p>`;
+                document.getElementById("orderHistoryList").innerHTML = `<p style="color: #e74c3c; font-size: 14px;">စာရင်းဆွဲယူရာတွင် အမှားရှိပါသည်။</p>`;
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
