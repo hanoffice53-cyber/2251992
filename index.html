@@ -22,7 +22,7 @@
             color: #f3f3f3;
         }
 
-        /* 1. Header Section - အပေါ်ဆုံးတွင် အသေ (Sticky) ထားရှိခြင်း */
+        /* 1. Header Section - အပေါ်ဆုံးတွင် အသေ (Fixed) ထားရှိခြင်း */
         .header { 
             background: linear-gradient(135deg, #b8860b, #d4af37, #8b6508); 
             color: #0c0c0c; padding: 10px 15px; 
@@ -46,14 +46,14 @@
         }
         .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 1px 6px; font-size: 11px; position: absolute; top: -6px; right: -6px; }
         
-        /* Container - အပေါ်ခေါင်းစည်းနှင့် အောက်ကြော်ငြာတန်းကြားတွင် လွတ်လပ်စွာ Scroll လုပ်နိုင်ရန် */
+        /* Container */
         .container { 
             padding: 15px 12px; 
             width: 100%; 
             max-width: 900px; 
             margin: auto; 
-            margin-top: 70px; /* Header အောက်တွင် ဝင်မသွားစေရန် နေရာချန်ခြင်း */
-            margin-bottom: 60px; /* Bottom Banner အောက်တွင် ဝင်မသွားစေရန် နေရာချန်ခြင်း */
+            margin-top: 70px; 
+            margin-bottom: 60px; 
         }
         
         .card-box { background: #241309; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
@@ -181,7 +181,7 @@
         .pulse-anim { animation: pulseGlow 2s infinite; }
         .truck-anim { animation: driveScooter 1.5s ease-in-out infinite; }
 
-        /* Menu Grid - မျက်နှာပြင်အပြည့် ကြီးမားထင်ရှားစွာ ပေါ်စေရန်နှင့် ဖောင့် ၂ ဆ ကြီးရန် */
+        /* Menu Grid - ပုံနှင့်စာသားများ ဒေါင်လိုက် (Vertical) သပ်ရပ်စွာ ပေါ်စေရန် */
         .menu-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -193,7 +193,7 @@
             .menu-grid { grid-template-columns: 1fr; }
         }
         
-        /* Menu Card Box - ဟင်းပွဲကတ်ပြားများကို ကြီးမားထင်ရှားစွာ ပြသခြင်း */
+        /* Menu Card Box - ပုံအပေါ်၊ စာသားအောက်ပုံစံ */
         .menu-card { 
             display: flex; 
             flex-direction: column; 
@@ -208,7 +208,7 @@
         }
         .menu-card:active { transform: scale(0.98); border-color: #d4af37; }
         
-        /* ပုံအရွယ်အစားကို ပိုမိုကြီးမားထင်ရှားစေခြင်း (130px) */
+        /* ကြီးမားထင်ရှားသော အဝိုင်းပုံအရွယ်အစား (130px) */
         .menu-img-wrap { 
             position: relative; 
             width: 130px; 
@@ -231,7 +231,7 @@
             width: 100%;
         }
         
-        /* မီနူးအမည် - ဖောင့် ၂ ဆ ကြီးမားရှင်းလင်းစွာ ပြသခြင်း (20px) */
+        /* မီနူးအမည် - ဖောင့်ကြီးမားရှင်းလင်းစွာ ပြသခြင်း (20px) */
         .menu-title-pill { 
             background: #f39c12;
             color: #140a04;
@@ -246,7 +246,7 @@
             box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
         }
         
-        /* ဈေးနှုန်းစာသား - ဖောင့် ၂ ဆ ကြီးမားခြင်း (18px) */
+        /* ဈေးနှုန်းစာသား (18px) */
         .menu-price-text {
             color: #f1c40f;
             font-weight: bold;
@@ -254,7 +254,7 @@
             margin-bottom: 8px;
         }
         
-        /* မှာယူရန် ခလုတ် - ဖောင့် ၂ ဆ ကြီးမားခြင်း (16px) */
+        /* မှာယူရန် ခလုတ် (16px) */
         .order-btn { 
             background: #d4ac0d; 
             color: #140a04; 
@@ -270,7 +270,7 @@
         }
         .order-btn:hover { background: #f1c40f; }
 
-        /* 2. Bottom Announcement Bar - အောက်ဆုံးတွင် အသေ (Fixed) ထارရှိခြင်း */
+        /* 2. Bottom Announcement Bar - အောက်ဆုံးတွင် အသေ (Fixed) ထားရှိခြင်း */
         .bottom-ad-banner {
             position: fixed;
             bottom: 0;
@@ -378,7 +378,7 @@
             <button class="top-action-btn" style="margin-top: 15px; background: #e74c3c; color: white; width: 100%; border-radius: 10px; padding: 12px; border: none;" onclick="logoutUser()">အခြားအကောင့်ဖြင့် ပြောင်းဝင်မည်</button>
         </div>
 
-        <!-- 3. Main Ordering Screen (မီနူးများနှင့် အချက်အလက်များ) -->
+        <!-- 3. Main Ordering Screen -->
         <div id="mainScreen">
             <!-- ကဒ်နံပါတ် အချက်အလက်ကို ညာဘက်ထောင့်သို့ ကပ်ထားခြင်း -->
             <div class="top-corner-bar">
@@ -434,7 +434,7 @@
                 </div>
             </div>
 
-            <!-- Menu Grid (မျက်နှာပြင်ပေါ်တွင် ကြီးမားထင်ရှားစွာ ပေါ်စေရန်) -->
+            <!-- Menu Grid (ပုံအပေါ်၊ စာသားအောက် ဒေါင်လိုက်ပုံစံ) -->
             <div id="menuGrid" class="menu-grid">မီနူးများ ဆွဲယူနေပါသည်...</div>
         </div>
     </div>
