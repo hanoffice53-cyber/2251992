@@ -34,7 +34,7 @@
         }
         .header h2 { margin: 0; font-size: 18px; font-weight: bold; color: #1a1008; }
         
-        /* 📌 ပုံပါအတိုင်း ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသရန် */
+        /* ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသရန် */
         .header-user-badge {
             background: #140a04; border: 1px solid #d4af37; color: #f1c40f;
             padding: 5px 12px; border-radius: 8px; font-size: 14px; font-weight: bold;
@@ -61,7 +61,7 @@
         
         .tracker-step { 
             display: flex; align-items: center; gap: 12px; opacity: 0.4; 
-            transition: all 0.4s ease; background: #1b0e07; padding: 8px; border-radius: 10px; 
+            transition: all 0.4s ease; background: #1b0e07; padding: 10px; border-radius: 10px; 
         }
         .tracker-step.active { 
             opacity: 1; border: 1px solid #d4af37; 
@@ -74,25 +74,38 @@
         .step-badge-num { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: bold; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; }
         .step-info { flex: 1; }
         .step-name { font-weight: bold; font-size: 15px; color: #f9e79f; }
-        .step-desc { font-size: 12px; color: #bbb; }
+        .step-desc { font-size: 13px; color: #ddd; margin-top: 2px; }
         .step-connector { width: 2px; height: 12px; background: #5c3a21; margin-left: 19px; }
         .step-connector.active { background: #d4af37; }
 
-        /* ပို့ဆောင်နေစဉ်နှင့် ရောက်ရှိချိန် ပုံအရှင်/ပုံပေါ်လာစေရန် Animation */
+        /* လူအထုပ်ဆွဲလာ၍ လမ်းလျှောက်လာပုံ ရွေ့လျားမှု (Walking Animation Effect) */
+        .walking-animation-text {
+            display: inline-block;
+            font-size: 18px;
+            margin-top: 4px;
+            animation: walkMove 1.2s infinite alternate ease-in-out;
+        }
+
+        @keyframes walkMove {
+            0% { transform: translateX(0px); opacity: 0.75; }
+            100% { transform: translateX(14px); opacity: 1; }
+        }
+
         .step-img-preview {
-            width: 55px; height: 55px; border-radius: 8px; object-fit: cover;
+            width: 65px; height: 65px; min-width: 65px; border-radius: 10px; object-fit: cover;
             border: 2px solid #d4af37; display: none; margin-left: auto;
             animation: pulseGlow 1.5s infinite alternate;
-            cursor: pointer;
+            cursor: zoom-in;
+            background: #140a04;
         }
         .tracker-step.active .step-img-preview { display: block; }
 
         @keyframes pulseGlow {
             0% { transform: scale(1); box-shadow: 0 0 5px #d4af37; }
-            100% { transform: scale(1.05); box-shadow: 0 0 12px #f1c40f; }
+            100% { transform: scale(1.06); box-shadow: 0 0 14px #f1c40f; }
         }
 
-        /* Menu Grid (Vertical Layout & 2x Font) */
+        /* Menu Grid */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
         @media (max-width: 400px) { .menu-grid { grid-template-columns: 1fr; } }
         .menu-card { display: flex; flex-direction: column; align-items: center; text-align: center; background: #241309; border: 2px solid #5c3a21; border-radius: 16px; padding: 15px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
@@ -133,7 +146,7 @@
             <h2>YADANAR Fastfood</h2>
         </div>
 
-        <!-- 📌 ပုံပါအတိုင်း ထိပ်ဆုံး Header ဘားတွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း -->
+        <!-- ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း -->
         <div id="headerUserBadge" class="header-user-badge">
             📌 အခန်း (<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်နံပါတ်: <span id="dispCustCodeHeader"></span>
         </div>
@@ -187,15 +200,25 @@
                     <!-- အဆင့် ၁ -->
                     <div class="tracker-step" id="step1">
                         <div class="step-icon-wrap">🛒<div class="step-badge-num">1</div></div>
-                        <div class="step-info"><div class="step-name">အော်ဒါလက်ခံပြီး</div><div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div></div>
+                        <div class="step-info">
+                            <div class="step-name">အော်ဒါလက်ခံပြီး</div>
+                            <div class="step-desc">ဆိုင်ကို အော်ဒါတင်နေပါသည်</div>
+                        </div>
+                        <img src="https://drive.google.com/thumbnail?id=1-chySZL9xaV2rng0NyfTe8xpsaxf7X-Q&sz=w1000" class="step-img-preview" alt="Order Received" onclick="openImageModal(this.src)" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်">
                     </div>
                     <div class="step-connector" id="conn1"></div>
                     
-                    <!-- အဆင့် ၂ (လူက အထုပ်ဆွဲလာသည့် ပုံအရှင်/GIF) -->
+                    <!-- အဆင့် ၂ (လူက အထုပ်ဆွဲလာ၍ လမ်းလျှောက်ပို့ဆောင်နေပုံ) -->
                     <div class="tracker-step" id="step2">
-                        <div class="step-icon-wrap">🚶<div class="step-badge-num">2</div></div>
-                        <div class="step-info"><div class="step-name">ပို့ဆောင်နေသည်</div><div class="step-desc">ဝန်ထမ်းမှ အထုပ်ဆွဲ၍ ပို့ဆောင်ရန် လာနေပါပြီ</div></div>
-                        <img src="https://i.imgur.com/your-walking-delivery.gif" class="step-img-preview" alt="Walking Delivery" onclick="openImageModal(this.src)">
+                        <div class="step-icon-wrap">🍽️<div class="step-badge-num">2</div></div>
+                        <div class="step-info">
+                            <div class="step-name">ပို့ဆောင်နေသည်</div>
+                            <div class="step-desc">
+                                ဝန်ထမ်းမှ အထုပ်ဆွဲ၍ ပို့ဆောင်ရန် လာနေပါပြီ<br>
+                                <span class="walking-animation-text">🏃‍💨 🛵😋🍽️🍝🥘</span>
+                            </div>
+                        </div>
+                        <img src="https://drive.google.com/thumbnail?id=1cBWqi9_b_T3-rpfUNkxUPl-knH6MvnYr&sz=w1000" class="step-img-preview" alt="Walking Delivery" onclick="openImageModal(this.src)" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်">
                     </div>
                     <div class="step-connector" id="conn2"></div>
                     
@@ -206,7 +229,7 @@
                             <div class="step-name">ပို့ဆောင်ပြီး</div>
                             <div class="step-desc" id="step3Desc">အခန်းတံခါးတွင် အထုပ်ချိတ်ထားပါပြီ</div>
                         </div>
-                        <img src="https://i.imgur.com/your-room-door.jpg" class="step-img-preview" id="arrivedDoorImg" alt="Door Hanging" onclick="openImageModal(this.src)" style="display:none;">
+                        <img src="https://drive.google.com/thumbnail?id=12je1YlJzyj_lhx1MHmpOrEE6SdshVw-u&sz=w1000" class="step-img-preview" id="arrivedDoorImg" alt="Door Hanging" onclick="openImageModal(this.src)" style="display:none;" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်">
                     </div>
                 </div>
             </div>
@@ -268,6 +291,8 @@
         let approvalCheckInterval = null;
         let orderStatusInterval = null;
         let doorImageTimer = null;
+        let lastKnownOrderStatus = null;
+        let trackerHideTimer = null;
 
         function getDeviceId() {
             let devId = localStorage.getItem("yadanar_device_id");
@@ -301,6 +326,7 @@
             if (approvalCheckInterval) clearInterval(approvalCheckInterval);
             if (orderStatusInterval) clearInterval(orderStatusInterval);
             if (doorImageTimer) clearTimeout(doorImageTimer);
+            if (trackerHideTimer) clearTimeout(trackerHideTimer);
             document.getElementById("loginScreen").style.display = "block";
             document.getElementById("pendingScreen").style.display = "none";
             document.getElementById("mainScreen").style.display = "none";
@@ -337,9 +363,15 @@
                     renderMenu();
 
                     if (res.activeOrder) {
+                        lastKnownOrderStatus = res.activeOrder.status;
                         showActiveOrder(res.activeOrder.status);
                     } else {
-                        document.getElementById("deliveryTrackerCard").classList.remove("active");
+                        if (lastKnownOrderStatus && !lastKnownOrderStatus.includes("ပို့ဆောင်ပြီး")) {
+                            lastKnownOrderStatus = "ပို့ဆောင်ပြီး";
+                            showActiveOrder("ပို့ဆောင်ပြီး");
+                        } else if (!trackerHideTimer) {
+                            document.getElementById("deliveryTrackerCard").classList.remove("active");
+                        }
                     }
 
                     if (!orderStatusInterval) {
@@ -347,9 +379,13 @@
                             let silentRes = await callBackend({ action: "getUserInitData", custCode: custCode });
                             if (silentRes && silentRes.status === "success") {
                                 if (silentRes.activeOrder) {
+                                    lastKnownOrderStatus = silentRes.activeOrder.status;
                                     showActiveOrder(silentRes.activeOrder.status);
                                 } else {
-                                    document.getElementById("deliveryTrackerCard").classList.remove("active");
+                                    if (lastKnownOrderStatus && !lastKnownOrderStatus.includes("ပို့ဆောင်ပြီး")) {
+                                        lastKnownOrderStatus = "ပို့ဆောင်ပြီး";
+                                        showActiveOrder("ပို့ဆောင်ပြီး");
+                                    }
                                 }
                             }
                         }, 5000);
@@ -383,6 +419,7 @@
             if (approvalCheckInterval) clearInterval(approvalCheckInterval);
             if (orderStatusInterval) clearInterval(orderStatusInterval);
             if (doorImageTimer) clearTimeout(doorImageTimer);
+            if (trackerHideTimer) clearTimeout(trackerHideTimer);
             localStorage.removeItem("yadanar_custCode");
             showLoginScreen();
         }
@@ -503,20 +540,27 @@
             c1.classList.remove("active"); c2.classList.remove("active");
 
             if (status.includes("မှာယူထားသည်")) {
+                if (trackerHideTimer) { clearTimeout(trackerHideTimer); trackerHideTimer = null; }
+                if (doorImageTimer) { clearTimeout(doorImageTimer); doorImageTimer = null; }
                 s1.classList.add("active");
                 doorImg.style.display = "none";
             } else if (status.includes("ပို့ဆောင်နေ")) {
+                if (trackerHideTimer) { clearTimeout(trackerHideTimer); trackerHideTimer = null; }
+                if (doorImageTimer) { clearTimeout(doorImageTimer); doorImageTimer = null; }
                 s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active");
                 doorImg.style.display = "none";
             } else if (status.includes("ပို့ဆောင်ပြီး") || status.includes("ပြီးပါပြီ")) {
                 s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active"); c2.classList.add("active"); s3.classList.add("active");
-                
-                // ⏱️ အခန်းတံခါးတွင် အထုပ်ချိတ်ထားသော ပုံကို ၁၀ စက္ကန့်တိတိ ပြသပြီး အလိုအလျောက် ဖျောက်ရန်
                 doorImg.style.display = "block";
-                if (!doorImageTimer) {
-                    doorImageTimer = setTimeout(() => {
+                
+                // "ပို့ဆောင်ပြီး" ဖြစ်သွားလျှင် အခန်းတံခါးပုံကို ၁၀ စက္ကန့်တိတိ ပြသပြီးမှ Tracker ဖျောက်ရန်
+                if (!trackerHideTimer) {
+                    trackerHideTimer = setTimeout(() => {
                         doorImg.style.display = "none";
-                    }, 10000); // 10000 ms = ၁၀ စက္ကန့်
+                        card.classList.remove("active");
+                        lastKnownOrderStatus = null;
+                        trackerHideTimer = null;
+                    }, 10000);
                 }
             }
         }
