@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="my">
 <head>
@@ -8,9 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#d4af37">
     <title>YADANAR - Food Ordering</title>
-    <!-- Google Fonts (Padauk & Oswald) -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
@@ -21,8 +20,6 @@
             overflow-x: hidden;
             color: #f3f3f3;
         }
-
-        /* 1. Header Section - အပေါ်ဆုံးတွင် အသေ (Fixed) ထားရှိခြင်း */
         .header { 
             background: linear-gradient(135deg, #b8860b, #d4af37, #8b6508); 
             color: #0c0c0c; padding: 10px 15px; 
@@ -35,293 +32,56 @@
             background: #1a1a1a; border: 2px solid #f9e79f;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: #d4af37; font-size: 9px; font-weight: bold; text-align: center; line-height: 1.1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
-        .header h2 { margin: 0; font-size: 18px; font-weight: bold; letter-spacing: 0.5px; color: #1a1008; }
-        
+        .header h2 { margin: 0; font-size: 18px; font-weight: bold; color: #1a1008; }
         .header-btns { display: flex; gap: 8px; align-items: center; }
         .top-action-btn { 
             background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 7px 12px; 
             border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; position: relative; 
         }
         .badge { background: #e74c3c; color: white; border-radius: 50%; padding: 1px 6px; font-size: 11px; position: absolute; top: -6px; right: -6px; }
-        
-        /* Container */
-        .container { 
-            padding: 15px 12px; 
-            width: 100%; 
-            max-width: 900px; 
-            margin: auto; 
-            margin-top: 70px; 
-            margin-bottom: 60px; 
-        }
-        
+        .container { padding: 15px 12px; width: 100%; max-width: 900px; margin: auto; margin-top: 70px; margin-bottom: 60px; }
         .card-box { background: #241309; color: #d4af37; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); margin: 20px auto; max-width: 500px; width: 100%; text-align: center; border: 1px solid #d4af37; }
         #mainScreen, #pendingScreen { display: none; width: 100%; }
-
-        /* Corner User Badge */
-        .top-corner-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-        .user-corner-badge {
-            background: #140a04;
-            border: 1px solid #d4af37;
-            color: #f1c40f;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        }
-
-        /* Animated Delivery Tracker Component */
-        .yadanar-tracker-card {
-            background: #241309;
-            border: 2px solid #d4af37;
-            border-radius: 12px;
-            padding: 14px;
-            color: #f3f3f3;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            display: none;
-        }
+        .top-corner-bar { display: flex; justify-content: flex-end; margin-bottom: 10px; width: 100%; }
+        .user-corner-badge { background: #140a04; border: 1px solid #d4af37; color: #f1c40f; padding: 6px 12px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+        
+        /* Delivery Tracker Component */
+        .yadanar-tracker-card { background: #241309; border: 2px solid #d4af37; border-radius: 12px; padding: 14px; color: #f3f3f3; margin-bottom: 15px; display: none; }
         .yadanar-tracker-card.active { display: block; }
-        .tracker-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #5c3a21;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-        .shop-badge-mini {
-            background: linear-gradient(135deg, #d4af37, #aa771c);
-            color: #0c0c0c;
-            font-weight: bold;
-            font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 20px;
-        }
-        .tracker-title-text {
-            font-size: 15px;
-            font-weight: bold;
-            color: #f9e79f;
-        }
-        .steps-container {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            position: relative;
-        }
-        .tracker-step {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0.4;
-            transition: all 0.4s ease;
-        }
+        .tracker-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #5c3a21; padding-bottom: 8px; margin-bottom: 12px; }
+        .shop-badge-mini { background: linear-gradient(135deg, #d4af37, #aa771c); color: #0c0c0c; font-weight: bold; font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+        .tracker-title-text { font-size: 15px; font-weight: bold; color: #f9e79f; }
+        .steps-container { display: flex; flex-direction: column; gap: 6px; position: relative; }
+        .tracker-step { display: flex; align-items: center; gap: 12px; opacity: 0.4; transition: all 0.4s ease; }
         .tracker-step.active { opacity: 1; }
-        .step-icon-wrap {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            border-radius: 50%;
-            background: #140a04;
-            border: 2px solid #8b6508;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            position: relative;
-        }
-        .tracker-step.active .step-icon-wrap {
-            border-color: #d4af37;
-            background: #361e10;
-        }
-        .step-badge-num {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #e74c3c;
-            color: #fff;
-            font-size: 10px;
-            font-weight: bold;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #fff;
-        }
+        .step-icon-wrap { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; background: #140a04; border: 2px solid #8b6508; display: flex; align-items: center; justify-content: center; font-size: 18px; position: relative; }
+        .tracker-step.active .step-icon-wrap { border-color: #d4af37; background: #361e10; }
+        .step-badge-num { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: bold; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; }
         .step-info { flex: 1; }
         .step-name { font-weight: bold; font-size: 15px; color: #f9e79f; }
         .step-desc { font-size: 12px; color: #bbb; }
-        .step-connector {
-            width: 2px;
-            height: 12px;
-            background: #5c3a21;
-            margin-left: 19px;
-        }
+        .step-connector { width: 2px; height: 12px; background: #5c3a21; margin-left: 19px; }
         .step-connector.active { background: #d4af37; }
 
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-        @keyframes driveScooter {
-            0% { transform: translateX(0px); }
-            50% { transform: translateX(5px); }
-            100% { transform: translateX(0px); }
-        }
-        .pulse-anim { animation: pulseGlow 2s infinite; }
-        .truck-anim { animation: driveScooter 1.5s ease-in-out infinite; }
-
-        /* Menu Grid - ပုံနှင့်စာသားများ ဒေါင်လိုက် (Vertical) သပ်ရပ်စွာ ပေါ်စေရန် */
-        .menu-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; 
-            width: 100%; 
-            margin-top: 10px;
-        }
-        @media (max-width: 400px) {
-            .menu-grid { grid-template-columns: 1fr; }
-        }
-        
-        /* Menu Card Box - ပုံအပေါ်၊ စာသားအောက်ပုံစံ */
-        .menu-card { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center;
-            background: #241309;
-            border: 2px solid #5c3a21;
-            border-radius: 16px;
-            padding: 15px 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            transition: transform 0.2s ease, border-color 0.2s;
-        }
-        .menu-card:active { transform: scale(0.98); border-color: #d4af37; }
-        
-        /* ကြီးမားထင်ရှားသော အဝိုင်းပုံအရွယ်အစား (130px) */
-        .menu-img-wrap { 
-            position: relative; 
-            width: 130px; 
-            height: 130px; 
-            min-width: 130px;
-            border-radius: 50%; 
-            background: #fff; 
-            border: 3px solid #d4af37;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-            overflow: hidden;
-            cursor: zoom-in;
-            margin-bottom: 10px;
-        }
+        /* Menu Grid (Vertical Layout & 2x Font) */
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
+        @media (max-width: 400px) { .menu-grid { grid-template-columns: 1fr; } }
+        .menu-card { display: flex; flex-direction: column; align-items: center; text-align: center; background: #241309; border: 2px solid #5c3a21; border-radius: 16px; padding: 15px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+        .menu-img-wrap { position: relative; width: 130px; height: 130px; min-width: 130px; border-radius: 50%; background: #fff; border: 3px solid #d4af37; overflow: hidden; cursor: zoom-in; margin-bottom: 10px; }
         .menu-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .menu-details-col {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        
-        /* မီနူးအမည် - ဖောင့်ကြီးမားရှင်းလင်းစွာ ပြသခြင်း (20px) */
-        .menu-title-pill { 
-            background: #f39c12;
-            color: #140a04;
-            font-weight: bold; 
-            font-size: 20px; 
-            padding: 6px 12px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            width: 100%;
-            word-break: break-word;
-            line-height: 1.2;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
-        }
-        
-        /* ဈေးနှုန်းစာသား (18px) */
-        .menu-price-text {
-            color: #f1c40f;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-        
-        /* မှာယူရန် ခလုတ် (16px) */
-        .order-btn { 
-            background: #d4ac0d; 
-            color: #140a04; 
-            border: none; 
-            padding: 10px 16px; 
-            border-radius: 8px;
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 16px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-            width: 100%;
-            transition: background 0.2s; 
-        }
-        .order-btn:hover { background: #f1c40f; }
+        .menu-title-pill { background: #f39c12; color: #140a04; font-weight: bold; font-size: 20px; padding: 6px 12px; border-radius: 8px; margin-bottom: 6px; width: 100%; }
+        .menu-price-text { color: #f1c40f; font-weight: bold; font-size: 18px; margin-bottom: 8px; }
+        .order-btn { background: #d4ac0d; color: #140a04; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; }
 
-        /* 2. Bottom Announcement Bar - အောက်ဆုံးတွင် အသေ (Fixed) ထားရှိခြင်း */
-        .bottom-ad-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #f1c40f;
-            color: #0c0c0c;
-            font-weight: bold;
-            font-size: 16px;
-            padding: 10px 0;
-            z-index: 100;
-            box-shadow: 0 -3px 12px rgba(0,0,0,0.6);
-            border-top: 2px solid #fff;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .marquee-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marqueeAnim 16s linear infinite;
-        }
-        @keyframes marqueeAnim {
-            0%   { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
+        /* Announcement Bar */
+        .bottom-ad-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: #f1c40f; color: #0c0c0c; font-weight: bold; font-size: 16px; padding: 10px 0; z-index: 100; overflow: hidden; white-space: nowrap; border-top: 2px solid #fff; }
+        .marquee-text { display: inline-block; padding-left: 100%; animation: marqueeAnim 16s linear infinite; }
+        @keyframes marqueeAnim { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        /* Modals & Image Lightbox */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); justify-content: center; align-items: center; z-index: 200; }
-        .modal-content { background: #241309; color: #f3f3f3; width: 92%; max-width: 550px; max-height: 85vh; border-radius: 15px; padding: 20px; overflow-y: auto; text-align: left; border: 2px solid #d4af37; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b8860b; padding-bottom: 10px; margin-bottom: 15px; }
+        .modal-content { background: #241309; color: #f3f3f3; width: 92%; max-width: 550px; max-height: 85vh; border-radius: 15px; padding: 20px; overflow-y: auto; text-align: left; border: 2px solid #d4af37; }
         .close-top-btn { background: #f39c12; color: #0c0c0c; border: none; font-size: 16px; font-weight: bold; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-        
-        .img-preview-box {
-            background: #1a0d06;
-            border: 2px solid #f39c12;
-            border-radius: 16px;
-            padding: 15px;
-            max-width: 90%;
-            width: 380px;
-            text-align: center;
-            position: relative;
-        }
-        .img-preview-box img {
-            width: 100%;
-            max-height: 320px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: #000;
-            margin-bottom: 12px;
-        }
-
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #d4af37; }
         .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #b8860b; border-radius: 10px; background-color: #140a04; color: #fff; }
@@ -330,7 +90,6 @@
 </head>
 <body>
 
-    <!-- Header (အပေါ်ဆုံးတွင် အသေထားရှိသည်) -->
     <div class="header">
         <div class="brand-area">
             <div class="brand-logo-circle">
@@ -346,7 +105,7 @@
     </div>
 
     <div class="container">
-        <!-- 1. Login Screen -->
+        <!-- Login Screen -->
         <div id="loginScreen" class="card-box" style="text-align: left;">
             <h3 style="margin-top:0; color:#d4af37;">👤 သင့်အချက်အလက်များ ဖြည့်ပါ။</h3>
             <div class="form-group">
@@ -367,142 +126,95 @@
             <button id="loginSubmitBtn" class="checkout-btn" onclick="saveUserInfoAndProceed()">➡️ အကောင့်လျှောက်မည် / ဝင်မည်</button>
         </div>
 
-        <!-- 2. Pending Approval Screen -->
+        <!-- Pending Approval Screen -->
         <div id="pendingScreen" class="card-box">
             <div style="font-size: 50px; margin-bottom: 10px;">⏳</div>
             <h3 style="color: #d4af37; margin-top: 0;">အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်</h3>
-            <p style="color: #ddd; font-size: 15px; line-height: 1.6;">
-                သင့်အကောင့် လျှောက်ထားမှုကို ရောင်းသူ (Admin) ထံသို့ ပေးပို့ပြီးပါပြီ။ အက်ဒမင်မှ ခွင့်ပြုချက်ပေးပြီးမှသာ မီနူးများကို ကြည့်ရှု၍ အော်ဒါတင်နိုင်မည် ဖြစ်ပါသည်။
-            </p>
+            <p style="color: #ddd; font-size: 15px;">အက်ဒမင်မှ ခွင့်ပြုချက်ပေးပြီးမှသာ မီနူးများကို ကြည့်ရှု၍ အော်ဒါတင်နိုင်မည် ဖြစ်ပါသည်။</p>
             <button class="checkout-btn" style="background: #34495e;" onclick="checkApprovalStatus()">🔄 အခြေအနေ ပြန်စစ်မည်</button>
             <button class="top-action-btn" style="margin-top: 15px; background: #e74c3c; color: white; width: 100%; border-radius: 10px; padding: 12px; border: none;" onclick="logoutUser()">အခြားအကောင့်ဖြင့် ပြောင်းဝင်မည်</button>
         </div>
 
-        <!-- 3. Main Ordering Screen -->
+        <!-- Main Ordering Screen -->
         <div id="mainScreen">
-            <!-- ကဒ်နံပါတ် အချက်အလက်ကို ညာဘက်ထောင့်သို့ ကပ်ထားခြင်း -->
             <div class="top-corner-bar">
                 <div class="user-corner-badge">
                     📌 ကဒ် [<span id="dispCustCode"></span>] | အဆောင် <span id="dispBuilding"></span>, အခန်း (<span id="dispRoomNo"></span>)
                 </div>
             </div>
 
-            <!-- Animated Delivery Status Component -->
+            <!-- Delivery Tracker -->
             <div class="yadanar-tracker-card" id="deliveryTrackerCard">
                 <div class="tracker-header">
                     <div class="shop-badge-mini">💎 YADANAR</div>
-                    <div class="tracker-title-text" id="trackerHeaderTitle">📦 အော်ဒါနှင့် ပို့ဆောင်မှု အခြေအနေ</div>
+                    <div class="tracker-title-text">📦 အော်ဒါနှင့် ပို့ဆောင်မှု အခြေအနေ</div>
                 </div>
-
                 <div class="steps-container">
                     <div class="tracker-step" id="step1">
-                        <div class="step-icon-wrap">
-                            🛒
-                            <div class="step-badge-num">1</div>
-                        </div>
-                        <div class="step-info">
-                            <div class="step-name">အော်ဒါလက်ခံပြီး</div>
-                            <div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div>
-                        </div>
+                        <div class="step-icon-wrap">🛒<div class="step-badge-num">1</div></div>
+                        <div class="step-info"><div class="step-name">အော်ဒါလက်ခံပြီး</div><div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div></div>
                     </div>
-
                     <div class="step-connector" id="conn1"></div>
-
                     <div class="tracker-step" id="step2">
-                        <div class="step-icon-wrap">
-                            🛵
-                            <div class="step-badge-num">2</div>
-                        </div>
-                        <div class="step-info">
-                            <div class="step-name">ပို့ဆောင်နေသည်</div>
-                            <div class="step-desc">အစားအစာများ ပို့ဆောင်ရန် ထွက်ခွာပါပြီ</div>
-                        </div>
+                        <div class="step-icon-wrap">🛵<div class="step-badge-num">2</div></div>
+                        <div class="step-info"><div class="step-name">ပို့ဆောင်နေသည်</div><div class="step-desc">အစားအစာများ ပို့ဆောင်ရန် ထွက်ခွာပါပြီ</div></div>
                     </div>
-
                     <div class="step-connector" id="conn2"></div>
-
                     <div class="tracker-step" id="step3">
-                        <div class="step-icon-wrap">
-                            ✅
-                            <div class="step-badge-num">3</div>
-                        </div>
-                        <div class="step-info">
-                            <div class="step-name">ပို့ဆောင်ပြီးပါပြီ</div>
-                            <div class="step-desc">အခန်းဝသို့ ရောက်ရှိပါပြီ</div>
-                        </div>
+                        <div class="step-icon-wrap">✅<div class="step-badge-num">3</div></div>
+                        <div class="step-info"><div class="step-name">ပို့ဆောင်ပြီးပါပြီ</div><div class="step-desc">အခန်းဝသို့ ရောက်ရှိပါပြီ</div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Menu Grid (ပုံအပေါ်၊ စာသားအောက် ဒေါင်လိုက်ပုံစံ) -->
             <div id="menuGrid" class="menu-grid">မီနူးများ ဆွဲယူနေပါသည်...</div>
         </div>
     </div>
 
-    <!-- Bottom Announcement Bar (အောက်ဆုံးတွင် အသေထားရှိသည်) -->
+    <!-- Announcement Bar -->
     <div class="bottom-ad-banner">
-        <div class="marquee-text" id="adTickerText">📢 ကြော်ငြာချက် - ဝက်ခေါင်းသုတ် ညနေ ၅ နာရီ ရပါမည်။    |    YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
-    </div>
-
-    <!-- Image Zoom Preview Modal -->
-    <div id="imagePreviewModal" class="modal" onclick="closeImagePreview()">
-        <div class="img-preview-box" onclick="event.stopPropagation()">
-            <img id="previewImgSrc" src="" alt="Menu Preview">
-            <div id="previewImgTitle" style="color: #f39c12; font-size: 20px; font-weight: bold; margin-bottom: 6px;"></div>
-            <div id="previewImgPrice" style="color: #fff; font-size: 17px; margin-bottom: 14px;"></div>
-            <div style="display: flex; gap: 10px;">
-                <button class="close-top-btn" style="flex:1; background:#555; color:#fff;" onclick="closeImagePreview()">✕ ပိတ်မည်</button>
-                <button id="previewAddCartBtn" class="close-top-btn" style="flex:2; background:#f39c12; color:#000;">+ ခြင်းတောင်းထဲထည့်မည်</button>
-            </div>
-        </div>
+        <div class="marquee-text" id="adTickerText">📢 YADANAR Fastfood မှ နွေးထွေးစွာ ကြိုဆိုပါသည်။</div>
     </div>
 
     <!-- Cart Modal -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #b8860b; padding-bottom:10px; margin-bottom:15px;">
                 <h3 style="margin:0; color:#f39c12; font-size:20px;">🛒 မှာယူမည့် စာရင်း</h3>
                 <button class="close-top-btn" onclick="toggleCart()">✕ ပိတ်မည်</button>
             </div>
             <div id="cartItemsList"></div>
-            <div class="total-box" style="background: #140a04; border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 19px; font-weight: bold; color: #f39c12; display: flex; justify-content: space-between;">
+            <div style="background: #140a04; border: 1px solid #d4af37; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 19px; font-weight: bold; color: #f39c12; display: flex; justify-content: space-between;">
                 <span>ကျသင့်ငွေ စုစုပေါင်း:</span>
                 <span><span id="totalPrice">0</span> THB</span>
             </div>
-            <button id="orderSubmitBtn" class="checkout-btn" onclick="submitOrder()">✅ အော်ဒါ ပေးပို့မည်</button>
+            <button class="checkout-btn" onclick="submitOrder()">✅ အော်ဒါ ပေးပို့မည်</button>
         </div>
     </div>
 
-    <!-- History & Debt Modal -->
+    <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content" style="max-width: 650px;">
-            <div class="modal-header">
+            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #b8860b; padding-bottom:10px; margin-bottom:15px;">
                 <h3 style="margin:0; color:#f39c12; font-size:20px;">📋 အကောင့်အကျဉ်းချုပ်နှင့် မှတ်တမ်း</h3>
                 <button class="close-top-btn" onclick="toggleHistoryModal()">✕ ပိတ်မည်</button>
             </div>
-            
             <div style="background: #140a04; border: 1px solid #d4af37; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
                 <div style="font-weight: bold; color: #f39c12; margin-bottom: 8px; font-size: 17px;">💳 အကောင့်အကျဉ်းချုပ်</div>
-                <div style="display: flex; justify-content: space-between; font-size: 16px; margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 16px;">
                     <span>ကဒ်နံပါတ်: <b id="summaryCardNo">-</b></span>
                     <span>အခန်း: <b id="summaryRoom">-</b></span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 18px; color: #e74c3c; font-weight: bold; margin-top: 8px; border-top: 1px dashed #d4af37; padding-top: 8px;">
-                    <span>လစဉ်ကြွေး စုစုပေါင်း:</span>
-                    <span><span id="summaryDebt">0</span> THB</span>
-                </div>
             </div>
-
             <div style="font-weight: bold; font-size: 17px; margin-bottom: 10px; color: #f39c12;">📅 မှာယူမှု မှတ်တမ်းများ</div>
-            <div id="orderHistoryList"><p style="color: #aaa; font-size: 15px;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
+            <div id="orderHistoryList"><p style="color: #aaa;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
         </div>
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwRgqZe8cLXrZT1hOA0T5pGK527ER1pqO8JlRhEVqS2SN6GMwzf6vTIq93bC78x0IXs/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxn0mgKBmW5_ztXGd9tRDayzSeJk7krsvhX5SV_S7YaG5MjbCYW1sor9z3Jh40AikcN/exec"; // သင့် GAS Web App URL ထည့်ရန်
         let menus = [];
         let cart = {};
-        let statusCheckInterval = null;
 
         function getDeviceId() {
             let devId = localStorage.getItem("yadanar_device_id");
@@ -520,21 +232,16 @@
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
-                const text = await response.text();
-                return JSON.parse(text);
+                return await response.json();
             } catch (err) {
                 return { status: "error", message: err.message };
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", () => {
             getDeviceId();
             let savedCode = localStorage.getItem("yadanar_custCode");
-            if (savedCode) { 
-                verifyAndLoadUser(savedCode); 
-            } else { 
-                showLoginScreen(); 
-            }
+            if (savedCode) { verifyAndLoadUser(savedCode); } else { showLoginScreen(); }
         });
 
         function showLoginScreen() {
@@ -570,7 +277,7 @@
                     renderMenu();
 
                     if (res.activeOrder) {
-                        showActiveOrder(res.activeOrder.items, res.activeOrder.orderId, res.activeOrder.status);
+                        showActiveOrder(res.activeOrder.status);
                     } else {
                         document.getElementById("deliveryTrackerCard").classList.remove("active");
                     }
@@ -588,7 +295,7 @@
 
         async function checkApprovalStatus() {
             let savedCode = localStorage.getItem("yadanar_custCode");
-            if (savedCode) { verifyAndLoadUser(savedCode); } else { showLoginScreen(); }
+            if (savedCode) verifyAndLoadUser(savedCode);
         }
 
         function logoutUser() {
@@ -601,15 +308,7 @@
             let building = document.getElementById("loginBuilding").value;
             let roomNo = document.getElementById("loginRoomNo").value.trim();
 
-            if (!custCode || Number(custCode) < 30160 || Number(custCode) > 30500) {
-                alert("❌ မှန်ကန်သော ကဒ်နံပါတ် (30160 မှ 30500 ကြား) ထည့်ပါ။");
-                return;
-            }
-            if (!roomNo) { alert("❌ အခန်းနံပါတ် ဖြည့်ပါ။"); return; }
-
-            let btn = document.getElementById("loginSubmitBtn");
-            btn.disabled = true;
-            btn.innerText = "⏳ အကောင့်တင်သွင်းနေပါသည်...";
+            if (!custCode || !roomNo) { alert("❌ အချက်အလက်များ အပြည့်အစုံ ဖြည့်ပါ။"); return; }
 
             const res = await callBackend({
                 action: "registerUserSession",
@@ -619,13 +318,10 @@
                 deviceId: getDeviceId()
             });
 
-            btn.disabled = false;
-            btn.innerText = "➡️ အကောင့်လျှောက်မည် / ဝင်မည်";
-
             if (res && res.status === "success") {
-                await verifyAndLoadUser(custCode);
+                verifyAndLoadUser(custCode);
             } else {
-                alert("❌ " + (res.message || "အမှားအယွင်း ရှိပါသည်"));
+                alert(res.message || "❌ အမှားအယွင်း ရှိပါသည်");
             }
         }
 
@@ -639,37 +335,13 @@
             menus.forEach(m => {
                 grid.innerHTML += `
                     <div class="menu-card">
-                        <div class="menu-img-wrap" onclick="openImagePreview('${m.code}')">
-                            <img src="${m.img}" class="menu-img" alt="${m.name}">
-                        </div>
-                        <div class="menu-details-col">
-                            <div class="menu-title-pill">${m.name}</div>
-                            <div class="menu-price-text">${m.price}฿</div>
-                            <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
-                        </div>
+                        <div class="menu-img-wrap"><img src="${m.image}" class="menu-img" alt="${m.name}"></div>
+                        <div class="menu-title-pill">${m.name}</div>
+                        <div class="menu-price-text">${m.price}฿</div>
+                        <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
                     </div>
                 `;
             });
-        }
-
-        function openImagePreview(code) {
-            let item = menus.find(m => String(m.code) === String(code));
-            if (!item) return;
-            document.getElementById("previewImgSrc").src = item.img;
-            document.getElementById("previewImgTitle").innerText = `[${item.code}] ${item.name}`;
-            document.getElementById("previewImgPrice").innerText = `ဈေးနှုန်း - ${item.price} THB`;
-            
-            let addBtn = document.getElementById("previewAddCartBtn");
-            addBtn.onclick = function() {
-                addToCart(item.code);
-                closeImagePreview();
-            };
-            
-            document.getElementById("imagePreviewModal").style.display = "flex";
-        }
-
-        function closeImagePreview() {
-            document.getElementById("imagePreviewModal").style.display = "none";
         }
 
         function addToCart(code) {
@@ -692,23 +364,17 @@
             let count = 0, total = 0;
             let list = document.getElementById("cartItemsList");
             list.innerHTML = "";
-            if (Object.keys(cart).length === 0) {
-                list.innerHTML = "<p style='text-align:center; color:#aaa; padding:20px 0;'>ခြင်းတောင်းထဲတွင် ဟင်းပွဲ မရှိသေးပါ။</p>";
-            }
             for (let code in cart) {
                 let item = cart[code];
                 count += item.qty;
                 total += item.price * item.qty;
                 list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #4a2c18; padding:14px 0;">
-                        <div>
-                            <div style="font-weight:bold; font-size:17px; color:#fff;">${item.name}</div>
-                            <div style="color:#ccc; font-size:15px;">${item.price} THB × ${item.qty} = <b style="color:#f39c12;">${item.price * item.qty} THB</b></div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <button onclick="changeQty('${code}', -1)" style="width:38px; height:38px; font-weight:bold; background:#4a2c18; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:16px;">-</button>
-                            <span style="color:#fff; font-weight:bold; font-size:16px;">${item.qty}</span>
-                            <button onclick="changeQty('${code}', 1)" style="width:38px; height:38px; font-weight:bold; background:#4a2c18; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:16px;">+</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #4a2c18; padding:10px 0;">
+                        <div>${item.name} (${item.price}฿ × ${item.qty})</div>
+                        <div style="display:flex; gap:8px;">
+                            <button onclick="changeQty('${code}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty('${code}', 1)">+</button>
                         </div>
                     </div>
                 `;
@@ -722,144 +388,60 @@
             modal.style.display = modal.style.display === "flex" ? "none" : "flex";
         }
 
-        async function openHistoryModal() {
-            let custCode = localStorage.getItem("yadanar_custCode");
-            let building = localStorage.getItem("yadanar_building");
-            let roomNo = localStorage.getItem("yadanar_roomNo");
-
-            document.getElementById("summaryCardNo").innerText = custCode;
-            document.getElementById("summaryRoom").innerText = building + " " + roomNo;
-            document.getElementById("summaryDebt").innerText = "တွက်ချက်နေပါသည်...";
-            document.getElementById("orderHistoryList").innerHTML = `<p style="color: #aaa; font-size: 15px;">စာရင်းများ ဆွဲယူနေပါသည်...</p>`;
-            document.getElementById("historyModal").style.display = "flex";
-
-            const data = await callBackend({ action: "getUserHistory", custCode: custCode });
-            if (data && data.status === "success") {
-                let container = document.getElementById("orderHistoryList");
-                let calculatedDebt = 0;
-
-                if (!data.history || data.history.length === 0) {
-                    container.innerHTML = `<p style="color: #aaa; font-size: 15px;">မှာယူမှု မှတ်တမ်း မရှိသေးပါ။</p>`;
-                    document.getElementById("summaryDebt").innerText = "0";
-                } else {
-                    container.innerHTML = data.history.map(h => {
-                        const isSoldOut = String(h.status).trim() === "ကုန်သွားပြီး";
-                        const isCredit = String(h.paymentType).trim() === "အကြွေး";
-                        
-                        if (!isSoldOut && isCredit) {
-                            let numericTotal = Number(String(h.total).replace(/[^0-9.-]+/g, "")) || 0;
-                            calculatedDebt += numericTotal;
-                        }
-
-                        return `
-                        <div style="padding: 12px 0; border-bottom: 1px solid #4a2c18; font-size: 16px; color: #ddd;">
-                            <div>
-                                <b style="color:#f39c12;">[${h.id}]</b> ${h.text} 
-                                ${isSoldOut ? '<span style="color:#e74c3c; font-weight:bold;">(ကုန်သွားပြီး - ငွေမပေါင်းပါ)</span>' : `<span style="color: #f39c12; font-weight:bold;">- ${h.total} THB</span>`}
-                            </div>
-                            <div style="font-size:14px; color:#bbb; margin-top:4px; display:flex; justify-content:space-between;">
-                                <span>${h.paymentType} | ${h.status}</span>
-                                <span>${h.date}</span>
-                            </div>
-                        </div>
-                    `}).join('');
-
-                    let finalDebt = (Number(data.totalDebt) > 0) ? Number(data.totalDebt) : calculatedDebt;
-                    document.getElementById("summaryDebt").innerText = finalDebt.toLocaleString();
-                }
-            } else {
-                document.getElementById("summaryDebt").innerText = "0";
-                document.getElementById("orderHistoryList").innerHTML = `<p style="color: #e74c3c; font-size: 15px;">စာရင်းဆွဲယူရာတွင် အမှားရှိပါသည်။</p>`;
-            }
-        }
-        function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
-
         async function submitOrder() {
+            if (Object.keys(cart).length === 0) { alert("❌ ခြင်းတောင်းထဲတွင် ဟင်းပွဲ မရှိသေးပါ။"); return; }
+            let itemsArr = Object.values(cart);
             let custCode = localStorage.getItem("yadanar_custCode");
             let building = localStorage.getItem("yadanar_building");
             let roomNo = localStorage.getItem("yadanar_roomNo");
 
-            if (Object.keys(cart).length === 0) { alert("❌ ခြင်းတောင်းထဲတွင် ဟင်းပွဲ မရှိသေးပါ။"); return; }
-            let itemsArr = [];
-            let itemsSummaryStr = [];
-            for (let code in cart) {
-                itemsArr.push(cart[code]);
-                itemsSummaryStr.push(cart[code].name + " (" + cart[code].qty + "ပွဲ)");
-            }
-
-            const res = await callBackend({ action: "submitOrder", custCode: custCode, building: building, roomNo: roomNo, items: itemsArr });
-            if (res && res.status === "error") {
-                alert("❌ " + res.message);
-            } else if (res && res.status === "success") {
+            const res = await callBackend({ action: "submitOrder", custCode, building, roomNo, items: itemsArr });
+            if (res && res.status === "success") {
                 alert("✅ အော်ဒါတင်ခြင်း အောင်မြင်ပါသည်!");
-                showActiveOrder(itemsSummaryStr.join(", "), res.orderId, "မှာယူထားသည်");
                 cart = {};
                 updateCartUI();
                 toggleCart();
+                verifyAndLoadUser(custCode);
             }
         }
 
-        function updateTrackerStatus(statusString) {
+        function showActiveOrder(status) {
             let card = document.getElementById("deliveryTrackerCard");
             card.classList.add("active");
-
             let s1 = document.getElementById("step1");
             let s2 = document.getElementById("step2");
             let s3 = document.getElementById("step3");
             let c1 = document.getElementById("conn1");
             let c2 = document.getElementById("conn2");
 
-            s1.classList.remove("active");
-            s2.classList.remove("active");
-            s3.classList.remove("active");
-            c1.classList.remove("active");
-            c2.classList.remove("active");
-            s1.querySelector('.step-icon-wrap').classList.remove("pulse-anim");
-            s2.querySelector('.step-icon-wrap').classList.remove("truck-anim");
+            s1.classList.remove("active"); s2.classList.remove("active"); s3.classList.remove("active");
+            c1.classList.remove("active"); c2.classList.remove("active");
 
-            if (statusString.includes("မှာယူထားသည်") || statusString.includes("လက်ခံ")) {
+            if (status.includes("မှာယူထားသည်")) {
                 s1.classList.add("active");
-                s1.querySelector('.step-icon-wrap').classList.add("pulse-anim");
-            } else if (statusString.includes("ပို့ဆောင်နေ") || statusString.includes("ထွက်ခွာ")) {
-                s1.classList.add("active");
-                c1.classList.add("active");
-                s2.classList.add("active");
-                s2.querySelector('.step-icon-wrap').classList.add("truck-anim");
-            } else if (statusString.includes("ရောက်ရှိ") || statusString.includes("ပြီး")) {
-                s1.classList.add("active");
-                c1.classList.add("active");
-                s2.classList.add("active");
-                c2.classList.add("active");
-                s3.classList.add("active");
+            } else if (status.includes("ပို့ဆောင်နေ")) {
+                s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active");
+            } else if (status.includes("ပို့ဆောင်ပြီး")) {
+                s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active"); c2.classList.add("active"); s3.classList.add("active");
             }
         }
 
-        function showActiveOrder(itemsSummary, orderId, initialStatus) {
-            updateTrackerStatus(initialStatus || "မှာယူထားသည်");
-
+        async function openHistoryModal() {
             let custCode = localStorage.getItem("yadanar_custCode");
-            callBackend({ action: "getUserInitData", custCode: custCode }).then(res => {
-                if (res && res.status === "success" && res.activeOrder) {
-                    updateTrackerStatus(res.activeOrder.status);
-                }
-            });
-
-            if (statusCheckInterval) clearInterval(statusCheckInterval);
-            statusCheckInterval = setInterval(async function() {
-                const res = await callBackend({ action: "getUserInitData", custCode: custCode });
-                if (res && res.status === "success") {
-                    if (!res.activeOrder) {
-                        updateTrackerStatus("ပို့ဆောင်ပြီးပါပြီ");
-                        clearInterval(statusCheckInterval);
-                        setTimeout(() => { 
-                            document.getElementById("deliveryTrackerCard").classList.remove("active"); 
-                        }, 8000);
-                    } else {
-                        updateTrackerStatus(res.activeOrder.status);
-                    }
-                }
-            }, 5000);
+            document.getElementById("summaryCardNo").innerText = custCode;
+            document.getElementById("summaryRoom").innerText = localStorage.getItem("yadanar_building") + " " + localStorage.getItem("yadanar_roomNo");
+            document.getElementById("historyModal").style.display = "flex";
+            
+            const res = await callBackend({ action: "getUserHistory", custCode });
+            if (res && res.status === "success") {
+                document.getElementById("orderHistoryList").innerHTML = res.history.map(h => `
+                    <div style="padding:10px 0; border-bottom:1px solid #4a2c18;">
+                        <b>[${h.id}]</b> ${h.text} - ${h.total} THB (${h.status})
+                    </div>
+                `).join('') || "မှတ်တမ်း မရှိသေးပါ။";
+            }
         }
+        function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
     </script>
 </body>
 </html>
