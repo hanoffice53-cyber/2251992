@@ -227,6 +227,7 @@
         let menus = [];
         let cart = {};
         let approvalCheckInterval = null;
+        let orderStatusInterval = null; // 👈 အော်ဒါအခြေအနေ Live Sync အတွက် ထည့်သွင်းထားသည်
 
         function getDeviceId() {
             let devId = localStorage.getItem("yadanar_device_id");
@@ -258,6 +259,7 @@
 
         function showLoginScreen() {
             if (approvalCheckInterval) clearInterval(approvalCheckInterval);
+            if (orderStatusInterval) clearInterval(orderStatusInterval);
             document.getElementById("loginScreen").style.display = "block";
             document.getElementById("pendingScreen").style.display = "none";
             document.getElementById("mainScreen").style.display = "none";
@@ -277,7 +279,7 @@
                 }
 
                 if (userData.approvalStatus === "approved") {
-                    if (approvalCheckInterval) clearInterval(approvalCheckInterval); // ခွင့်ပြုပြီးပါက Auto-Sync ကို ရပ်မည်
+                    if (approvalCheckInterval) clearInterval(approvalCheckInterval);
                     
                     document.getElementById("loginScreen").style.display = "none";
                     document.getElementById("pendingScreen").style.display = "none";
@@ -296,13 +298,27 @@
                     } else {
                         document.getElementById("deliveryTrackerCard").classList.remove("active");
                     }
+
+                    // 🔄 အော်ဒါအခြေအနေကို စက္ကန့် ၅ တိုင်း အလိုအလျောက် Live Sync လုပ်ပေးခြင်း
+                    if (!orderStatusInterval) {
+                        orderStatusInterval = setInterval(async () => {
+                            let silentRes = await callBackend({ action: "getUserInitData", custCode: custCode });
+                            if (silentRes && silentRes.status === "success") {
+                                if (silentRes.activeOrder) {
+                                    showActiveOrder(silentRes.activeOrder.status);
+                                } else {
+                                    document.getElementById("deliveryTrackerCard").classList.remove("active");
+                                }
+                            }
+                        }, 5000);
+                    }
                 } else {
+                    if (orderStatusInterval) clearInterval(orderStatusInterval);
                     document.getElementById("loginScreen").style.display = "none";
                     document.getElementById("mainScreen").style.display = "none";
                     document.getElementById("pendingScreen").style.display = "block";
                     document.getElementById("headerActionBtns").style.display = "none";
 
-                    // 🔄 အတည်ပြုချက်ရရှိရန် စက္ကန့် ၅ တိုင်း အလိုအလျောက် စစ်ဆေးနေခြင်း (Live Auto-Sync)
                     if (!approvalCheckInterval) {
                         approvalCheckInterval = setInterval(() => {
                             verifyAndLoadUser(custCode);
@@ -322,6 +338,7 @@
 
         function logoutUser() {
             if (approvalCheckInterval) clearInterval(approvalCheckInterval);
+            if (orderStatusInterval) clearInterval(orderStatusInterval);
             localStorage.removeItem("yadanar_custCode");
             showLoginScreen();
         }
@@ -440,7 +457,6 @@
             s1.classList.remove("active"); s2.classList.remove("active"); s3.classList.remove("active");
             c1.classList.remove("active"); c2.classList.remove("active");
 
-            // Status စာသားများကို အတိအကျ စစ်ဆေးခြင်း
             if (status.includes("မှာယူထားသည်")) {
                 s1.classList.add("active");
             } else if (status.includes("ပို့ဆောင်နေ")) {
@@ -460,7 +476,6 @@
             if (res && res.status === "success") {
                 let totalDebt = 0;
                 let historyHtml = res.history.map(h => {
-                    // အကယ်၍ အကြွေးဖြစ်ပြီး ကုန်သွားပြီး မဟုတ်ပါက ပေါင်းမည်
                     if (h.paymentType === 'အကြွေး' && h.status !== 'ကုန်သွားပြီး') {
                         totalDebt += Number(h.total) || 0;
                     }
@@ -471,14 +486,12 @@
                     `;
                 }).join('') || "မှတ်တမ်း မရှိသေးပါ။";
 
-                // အကောင့်အကျဉ်းချုပ်တွင် စုစုပေါင်း အကြွေးထည့်ပြရန်
                 document.getElementById("summaryCardNo").innerHTML = `${custCode} | စုစုပေါင်းအကြွေး: <span style="color:#e74c3c;">${totalDebt.toLocaleString()} THB</span>`;
                 document.getElementById("orderHistoryList").innerHTML = historyHtml;
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
 
-        // Image Lightbox Functions
         function openImageModal(imgSrc) {
             if (!imgSrc || imgSrc === "") return;
             const modal = document.getElementById("imgLightboxModal");
