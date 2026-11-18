@@ -223,7 +223,7 @@
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxDiBAj5b1fR2w9tY0U1GdmC-MjY6c319JmYpICMJrqwPuNlZ9g9sy3Ud1ymlfgxPAH/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx8_NmiCdRMswi3x7HocVsI0QZ7GULcnEKjh_MfhX_K1ImbvYo-N03f2BnZEWrrV2Gf/exec";
         let menus = [];
         let cart = {};
         let approvalCheckInterval = null;
@@ -457,11 +457,22 @@
             
             const res = await callBackend({ action: "getUserHistory", custCode });
             if (res && res.status === "success") {
-                document.getElementById("orderHistoryList").innerHTML = res.history.map(h => `
-                    <div style="padding:10px 0; border-bottom:1px solid #4a2c18;">
-                        <b>[${h.id}]</b> ${h.text} - ${h.total} THB (${h.status})
-                    </div>
-                `).join('') || "မှတ်တမ်း မရှိသေးပါ။";
+                let totalDebt = 0;
+                let historyHtml = res.history.map(h => {
+                    // အကယ်၍ အကြွေးဖြစ်ပြီး ကုန်သွားပြီး မဟုတ်ပါက ပေါင်းမည်
+                    if (h.paymentType === 'အကြွေး' && h.status !== 'ကုန်သွားပြီး') {
+                        totalDebt += Number(h.total) || 0;
+                    }
+                    return `
+                        <div style="padding:10px 0; border-bottom:1px solid #4a2c18; font-size: 15px;">
+                            <b>[${h.id}]</b> ${h.text} - <span style="color:#f1c40f;">${h.total} THB</span> (${h.status})
+                        </div>
+                    `;
+                }).join('') || "မှတ်တမ်း မရှိသေးပါ။";
+
+                // အကောင့်အကျဉ်းချုပ်တွင် စုစုပေါင်း အကြွေးထည့်ပြရန်
+                document.getElementById("summaryCardNo").innerHTML = `${custCode} | စုစုပေါင်းအကြွေး: <span style="color:#e74c3c;">${totalDebt.toLocaleString()} THB</span>`;
+                document.getElementById("orderHistoryList").innerHTML = historyHtml;
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
