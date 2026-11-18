@@ -440,11 +440,12 @@
             s1.classList.remove("active"); s2.classList.remove("active"); s3.classList.remove("active");
             c1.classList.remove("active"); c2.classList.remove("active");
 
+            // Status စာသားများကို အတိအကျ စစ်ဆေးခြင်း
             if (status.includes("မှာယူထားသည်")) {
                 s1.classList.add("active");
             } else if (status.includes("ပို့ဆောင်နေ")) {
                 s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active");
-            } else if (status.includes("ပို့ဆောင်ပြီး")) {
+            } else if (status.includes("ပို့ဆောင်ပြီး") || status.includes("ပြီးပါပြီ")) {
                 s1.classList.add("active"); c1.classList.add("active"); s2.classList.add("active"); c2.classList.add("active"); s3.classList.add("active");
             }
         }
