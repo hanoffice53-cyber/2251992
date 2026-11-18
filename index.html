@@ -442,6 +442,57 @@
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
-    </script>
+    </script>let approvalCheckInterval = null;
+
+        async function verifyAndLoadUser(custCode) {
+            const res = await callBackend({ action: "getUserInitData", custCode: custCode });
+            if (res && res.status === "success" && res.user) {
+                const userData = res.user;
+                localStorage.setItem("yadanar_custCode", custCode);
+                localStorage.setItem("yadanar_building", userData.building);
+                localStorage.setItem("yadanar_roomNo", userData.roomNo);
+
+                if (res.announcement) {
+                    document.getElementById("adTickerText").innerText = "📢 " + res.announcement;
+                }
+
+                if (userData.approvalStatus === "approved") {
+                    if (approvalCheckInterval) clearInterval(approvalCheckInterval); // စစ်ဆေးမှုကို ရပ်မည်
+                    
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("pendingScreen").style.display = "none";
+                    document.getElementById("mainScreen").style.display = "block";
+                    document.getElementById("headerActionBtns").style.display = "flex";
+
+                    document.getElementById("dispCustCode").innerText = custCode;
+                    document.getElementById("dispBuilding").innerText = userData.building;
+                    document.getElementById("dispRoomNo").innerText = userData.roomNo;
+
+                    menus = res.menus || [];
+                    renderMenu();
+
+                    if (res.activeOrder) {
+                        showActiveOrder(res.activeOrder.status);
+                    } else {
+                        document.getElementById("deliveryTrackerCard").classList.remove("active");
+                    }
+                } else {
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("mainScreen").style.display = "none";
+                    document.getElementById("pendingScreen").style.display = "block";
+                    document.getElementById("headerActionBtns").style.display = "none";
+
+                    // 🔄 အတည်ပြုချက်ရရှိရန် စက္ကန့် ၅ တိုင်း အလိုအလျောက် စစ်ဆေးနေခြင်း (Live Auto-Sync)
+                    if (!approvalCheckInterval) {
+                        approvalCheckInterval = setInterval(() => {
+                            verifyAndLoadUser(custCode);
+                        }, 5000);
+                    }
+                }
+            } else {
+                localStorage.removeItem("yadanar_custCode");
+                showLoginScreen();
+            }
+        }
 </body>
 </html>
