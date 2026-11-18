@@ -78,7 +78,7 @@
         .step-connector { width: 2px; height: 12px; background: #5c3a21; margin-left: 19px; }
         .step-connector.active { background: #d4af37; }
 
-        /* လူအထုပ်ဆွဲလာ၍ လမ်းလျှောက်လာပုံ ရွေ့လျားမှု (Walking Animation Effect) */
+        /* လမ်းလျှောက်လာပုံ ရွေ့လျားမှု Animation */
         .walking-animation-text {
             display: inline-block;
             font-size: 18px;
@@ -104,6 +104,10 @@
             0% { transform: scale(1); box-shadow: 0 0 5px #d4af37; }
             100% { transform: scale(1.06); box-shadow: 0 0 14px #f1c40f; }
         }
+
+        /* ပို့ဆောင်နေစဉ် (အဆင့် ၂) တွင်သာ စာတမ်းပေါ်စေရန် */
+        .step2-extra-desc { display: none; }
+        #step2.active .step2-extra-desc { display: inline; }
 
         /* Menu Grid */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
@@ -148,7 +152,7 @@
 
         <!-- ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း -->
         <div id="headerUserBadge" class="header-user-badge">
-            📌 အခန်း (<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်နံပါတ်: <span id="dispCustCodeHeader"></span>
+            📌(<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်: <span id="dispCustCodeHeader"></span>
         </div>
 
         <div id="headerActionBtns" class="header-btns" style="display:none;">
@@ -215,7 +219,9 @@
                             <div class="step-name">ပို့ဆောင်နေသည်</div>
                             <div class="step-desc">
                                 ဝန်ထမ်းမှ အထုပ်ဆွဲ၍ ပို့ဆောင်ရန် လာနေပါပြီ<br>
-                                <span class="walking-animation-text">🏃‍💨 🛵😋🍽️🍝🥘</span>
+                                <span class="step2-extra-desc">
+                                    <span class="walking-animation-text">🏃‍💨 🛵😋🍽️🍝🥘</span>
+                                </span>
                             </div>
                         </div>
                         <img src="https://drive.google.com/thumbnail?id=1cBWqi9_b_T3-rpfUNkxUPl-knH6MvnYr&sz=w1000" class="step-img-preview" alt="Walking Delivery" onclick="openImageModal(this.src)" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်">
