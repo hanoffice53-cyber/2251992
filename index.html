@@ -78,6 +78,7 @@
         .marquee-text { display: inline-block; padding-left: 100%; animation: marqueeAnim 16s linear infinite; }
         @keyframes marqueeAnim { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
+        /* Modals */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); justify-content: center; align-items: center; z-index: 200; }
         .modal-content { background: #241309; color: #f3f3f3; width: 92%; max-width: 550px; max-height: 85vh; border-radius: 15px; padding: 20px; overflow-y: auto; text-align: left; border: 2px solid #d4af37; }
         .close-top-btn { background: #f39c12; color: #0c0c0c; border: none; font-size: 16px; font-weight: bold; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
@@ -85,6 +86,11 @@
         .form-group label { display: block; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #d4af37; }
         .form-group input, .form-group select { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #b8860b; border-radius: 10px; background-color: #140a04; color: #fff; }
         .checkout-btn { background: linear-gradient(135deg, #27ae60, #1e8449); color: white; border: none; padding: 14px; width: 100%; font-size: 17px; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; }
+
+        /* Image Lightbox Styles */
+        .image-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); justify-content: center; align-items: center; z-index: 300; cursor: zoom-out; }
+        .image-modal img { max-width: 90%; max-height: 85vh; border-radius: 12px; border: 3px solid #d4af37; box-shadow: 0 5px 25px rgba(0,0,0,0.8); }
+        .close-img-modal { position: absolute; top: 20px; right: 25px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer; background: rgba(0,0,0,0.5); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #d4af37; }
     </style>
 </head>
 <body>
@@ -208,6 +214,12 @@
             <div style="font-weight: bold; font-size: 17px; margin-bottom: 10px; color: #f39c12;">📅 မှာယူမှု မှတ်တမ်းများ</div>
             <div id="orderHistoryList"><p style="color: #aaa;">စာရင်းများ ဆွဲယူနေပါသည်...</p></div>
         </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="imgLightboxModal" class="image-modal" onclick="closeImageModal()">
+        <span class="close-img-modal">×</span>
+        <img id="lightboxImg" src="" alt="Menu Large Image">
     </div>
 
     <script>
@@ -346,7 +358,7 @@
             menus.forEach(m => {
                 grid.innerHTML += `
                     <div class="menu-card">
-                        <div class="menu-img-wrap"><img src="${m.image}" class="menu-img" alt="${m.name}"></div>
+                        <div class="menu-img-wrap" onclick="openImageModal('${m.image}')"><img src="${m.image}" class="menu-img" alt="${m.name}" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်"></div>
                         <div class="menu-title-pill">${m.name}</div>
                         <div class="menu-price-text">${m.price}฿</div>
                         <button class="order-btn" onclick="addToCart('${m.code}')">+ ယူမည်</button>
@@ -453,6 +465,19 @@
             }
         }
         function toggleHistoryModal() { document.getElementById("historyModal").style.display = "none"; }
+
+        // Image Lightbox Functions
+        function openImageModal(imgSrc) {
+            if (!imgSrc || imgSrc === "") return;
+            const modal = document.getElementById("imgLightboxModal");
+            const img = document.getElementById("lightboxImg");
+            img.src = imgSrc;
+            modal.style.display = "flex";
+        }
+
+        function closeImageModal() {
+            document.getElementById("imgLightboxModal").style.display = "none";
+        }
     </script>
 </body>
 </html>
