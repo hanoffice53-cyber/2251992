@@ -45,15 +45,24 @@
         .top-corner-bar { display: flex; justify-content: flex-end; margin-bottom: 10px; width: 100%; }
         .user-corner-badge { background: #140a04; border: 1px solid #d4af37; color: #f1c40f; padding: 6px 12px; border-radius: 8px; font-size: 14px; font-weight: bold; }
         
-        /* Delivery Tracker Component */
+        /* Delivery Tracker Component with Animation Styles */
         .yadanar-tracker-card { background: #241309; border: 2px solid #d4af37; border-radius: 12px; padding: 14px; color: #f3f3f3; margin-bottom: 15px; display: none; }
         .yadanar-tracker-card.active { display: block; }
         .tracker-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #5c3a21; padding-bottom: 8px; margin-bottom: 12px; }
         .shop-badge-mini { background: linear-gradient(135deg, #d4af37, #aa771c); color: #0c0c0c; font-weight: bold; font-size: 12px; padding: 3px 10px; border-radius: 20px; }
         .tracker-title-text { font-size: 15px; font-weight: bold; color: #f9e79f; }
-        .steps-container { display: flex; flex-direction: column; gap: 6px; position: relative; }
-        .tracker-step { display: flex; align-items: center; gap: 12px; opacity: 0.4; transition: all 0.4s ease; }
-        .tracker-step.active { opacity: 1; }
+        .steps-container { display: flex; flex-direction: column; gap: 8px; position: relative; }
+        
+        .tracker-step { 
+            display: flex; align-items: center; gap: 12px; opacity: 0.4; 
+            transition: all 0.4s ease; background: #1b0e07; padding: 8px; border-radius: 10px; 
+        }
+        .tracker-step.active { 
+            opacity: 1; border: 1px solid #d4af37; 
+            background: linear-gradient(135deg, #2c160b, #3f2010);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
         .step-icon-wrap { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; background: #140a04; border: 2px solid #8b6508; display: flex; align-items: center; justify-content: center; font-size: 18px; position: relative; }
         .tracker-step.active .step-icon-wrap { border-color: #d4af37; background: #361e10; }
         .step-badge-num { position: absolute; top: -4px; right: -4px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: bold; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #fff; }
@@ -62,6 +71,19 @@
         .step-desc { font-size: 12px; color: #bbb; }
         .step-connector { width: 2px; height: 12px; background: #5c3a21; margin-left: 19px; }
         .step-connector.active { background: #d4af37; }
+
+        /* ပို့ဆောင်နေစဉ်နှင့် ရောက်ရှိချိန် ပုံအရှင်/ပုံပေါ်လာစေရန် Animation */
+        .step-img-preview {
+            width: 50px; height: 50px; border-radius: 8px; object-fit: cover;
+            border: 2px solid #d4af37; display: none; margin-left: auto;
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+        .tracker-step.active .step-img-preview { display: block; }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 5px #d4af37; }
+            100% { transform: scale(1.05); box-shadow: 0 0 12px #f1c40f; }
+        }
 
         /* Menu Grid (Vertical Layout & 2x Font) */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 10px; }
@@ -148,26 +170,42 @@
                 </div>
             </div>
 
-            <!-- Delivery Tracker -->
+            <!-- Delivery Tracker with Animated Images -->
             <div class="yadanar-tracker-card" id="deliveryTrackerCard">
                 <div class="tracker-header">
                     <div class="shop-badge-mini">💎 YADANAR</div>
                     <div class="tracker-title-text">📦 အော်ဒါနှင့် ပို့ဆောင်မှု အခြေအနေ</div>
                 </div>
                 <div class="steps-container">
+                    <!-- အဆင့် ၁ -->
                     <div class="tracker-step" id="step1">
                         <div class="step-icon-wrap">🛒<div class="step-badge-num">1</div></div>
-                        <div class="step-info"><div class="step-name">အော်ဒါလက်ခံပြီး</div><div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div></div>
+                        <div class="step-info">
+                            <div class="step-name">အော်ဒါလက်ခံပြီး</div>
+                            <div class="step-desc">ဆိုင်မှ အော်ဒါကို စတင်လက်ခံပါပြီ</div>
+                        </div>
                     </div>
                     <div class="step-connector" id="conn1"></div>
+                    
+                    <!-- အဆင့် ၂ (ပို့ဆောင်နေစဉ် ပုံအရှင်/GIF ထည့်သွင်းရန်) -->
                     <div class="tracker-step" id="step2">
                         <div class="step-icon-wrap">🛵<div class="step-badge-num">2</div></div>
-                        <div class="step-info"><div class="step-name">ပို့ဆောင်နေသည်</div><div class="step-desc">အစားအစာများ ပို့ဆောင်ရန် ထွက်ခွာပါပြီ</div></div>
+                        <div class="step-info">
+                            <div class="step-name">ပို့ဆောင်နေသည်</div>
+                            <div class="step-desc">အစားအစာများ ပို့ဆောင်ရန် ထွက်ခွာပါပြီ</div>
+                        </div>
+                        <img src="https://i.imgur.com/your-delivery-bike.gif" class="step-img-preview" alt="Delivery Bike">
                     </div>
                     <div class="step-connector" id="conn2"></div>
+                    
+                    <!-- အဆင့် ၃ (ရောက်ရှိသွားစဉ် ပုံပြရန်) -->
                     <div class="tracker-step" id="step3">
                         <div class="step-icon-wrap">✅<div class="step-badge-num">3</div></div>
-                        <div class="step-info"><div class="step-name">ပို့ဆောင်ပြီး</div><div class="step-desc">အခန်းဝသို့ ရောက်ရှိပါပြီ</div></div>
+                        <div class="step-info">
+                            <div class="step-name">ပို့ဆောင်ပြီး</div>
+                            <div class="step-desc">အခန်းဝသို့ ရောက်ရှိပါပြီ</div>
+                        </div>
+                        <img src="https://i.imgur.com/your-room-door.jpg" class="step-img-preview" alt="Arrived Door">
                     </div>
                 </div>
             </div>
@@ -227,7 +265,7 @@
         let menus = [];
         let cart = {};
         let approvalCheckInterval = null;
-        let orderStatusInterval = null; // 👈 အော်ဒါအခြေအနေ Live Sync အတွက် ထည့်သွင်းထားသည်
+        let orderStatusInterval = null;
 
         function getDeviceId() {
             let devId = localStorage.getItem("yadanar_device_id");
@@ -299,7 +337,6 @@
                         document.getElementById("deliveryTrackerCard").classList.remove("active");
                     }
 
-                    // 🔄 အော်ဒါအခြေအနေကို စက္ကန့် ၅ တိုင်း အလိုအလျောက် Live Sync လုပ်ပေးခြင်း
                     if (!orderStatusInterval) {
                         orderStatusInterval = setInterval(async () => {
                             let silentRes = await callBackend({ action: "getUserInitData", custCode: custCode });
