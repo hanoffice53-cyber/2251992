@@ -34,11 +34,11 @@
         }
         .header h2 { margin: 0; font-size: 18px; font-weight: bold; color: #1a1008; }
         
-        /* ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသရန် */
+        /* ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသရန် (ပြင်ဆင်ပြီး) */
         .header-user-badge {
             background: #140a04; border: 1px solid #d4af37; color: #f1c40f;
-            padding: 5px 12px; border-radius: 8px; font-size: 14px; font-weight: bold;
-            display: none; align-items: center; gap: 6px;
+            padding: 5px 10px; border-radius: 8px; font-size: 13px; font-weight: bold;
+            display: none; align-items: center; gap: 5px;
         }
 
         .header-btns { display: flex; gap: 8px; align-items: center; }
@@ -150,9 +150,9 @@
             <h2>YADANAR Fastfood</h2>
         </div>
 
-        <!-- ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း -->
+        <!-- ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း (ပြင်ဆင်ပြီး) -->
         <div id="headerUserBadge" class="header-user-badge">
-            📌 အခန်း (<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်နံပါတ်: <span id="dispCustCodeHeader"></span>
+            📌 အခန်း (<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်: <span id="dispCustCodeHeader"></span>
         </div>
 
         <div id="headerActionBtns" class="header-btns" style="display:none;">
@@ -238,6 +238,20 @@
                         <img src="https://drive.google.com/thumbnail?id=12je1YlJzyj_lhx1MHmpOrEE6SdshVw-u&sz=w1000" class="step-img-preview" id="arrivedDoorImg" alt="Door Hanging" onclick="openImageModal(this.src)" style="display:none;" title="နှိပ်၍ ပုံအကြီးကြည့်ရန်">
                     </div>
                 </div>
+            </div>
+
+            <!-- LINE Group သို့မဟုတ် အက်ဒမင် ဆက်သွယ်ရန် ခလုတ် -->
+            <div style="margin: 15px 0; text-align: center;">
+                <a href="https://line.me/ti/g2/သင်၏LINEလင့်ခ်ထည့်ရန်" target="_blank" style="
+                    background: linear-gradient(135deg, #00b900, #009900); 
+                    color: white; text-decoration: none; padding: 12px 20px; 
+                    border-radius: 12px; font-weight: bold; font-size: 16px; 
+                    display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+                    box-shadow: 0 4px 15px rgba(0,185,0,0.4); border: 1px solid #75fb75;
+                    width: 100%; max-width: 500px;
+                ">
+                    💬 အက်ဒမင်နှင့် ဆက်သွယ်ရန် (LINE Group သို့ ဝင်မည်)
+                </a>
             </div>
 
             <div id="menuGrid" class="menu-grid">မီနူးများ ဆွဲယူနေပါသည်...</div>
@@ -359,8 +373,10 @@
                     document.getElementById("pendingScreen").style.display = "none";
                     document.getElementById("mainScreen").style.display = "block";
                     document.getElementById("headerActionBtns").style.display = "flex";
-                    document.getElementById("headerUserBadge").style.display = "flex";
-
+                    
+                    // 📌 အခန်းနှင့် ကဒ်နံပါတ်ကို Header တွင် မှန်ကန်စွာ ပေါ်စေရန် (flex သုံးခြင်း)
+                    let badgeEl = document.getElementById("headerUserBadge");
+                    badgeEl.style.display = "flex";
                     document.getElementById("dispCustCodeHeader").innerText = custCode;
                     document.getElementById("dispBuildingHeader").innerText = userData.building;
                     document.getElementById("dispRoomNoHeader").innerText = userData.roomNo;
