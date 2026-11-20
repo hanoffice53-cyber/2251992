@@ -33,6 +33,12 @@
             color: #d4af37; font-size: 9px; font-weight: bold; text-align: center; line-height: 1.1;
         }
         .header h2 { margin: 0; font-size: 18px; font-weight: bold; color: #1a1008; }
+        
+        /* ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသရန် */
+        .header-user-badge {
+            background: #140a04; border: 1px solid #d4af37; color: #f1c40f;
+            padding: 5px 12px; border-radius: 8px; font-size: 14px; font-weight: bold;
+            display: none; align-items: center; gap: 6px;
         }
 
         .header-btns { display: flex; gap: 8px; align-items: center; }
@@ -143,8 +149,12 @@
             </div>
             <h2>YADANAR Fastfood</h2>
         </div>
+
+        <!-- ထိပ်ဆုံး Header တွင် အခန်းနှင့် ကဒ်နံပါတ် ပြသခြင်း -->
         <div id="headerUserBadge" class="header-user-badge">
-            
+            📌 အခန်း (<span id="dispBuildingHeader"></span>, <span id="dispRoomNoHeader"></span>) | ကဒ်နံပါတ်: <span id="dispCustCodeHeader"></span>
+        </div>
+
         <div id="headerActionBtns" class="header-btns" style="display:none;">
             <button class="top-action-btn" onclick="openHistoryModal()">📋 မှတ်တမ်း</button>
             <button class="top-action-btn" onclick="toggleCart()">🛒 <span id="cartCount" class="badge">0</span></button>
